@@ -23,7 +23,7 @@ const ThemeChanger = ({ onThemeChange }) => {
     overlay.style.top = '0';
     overlay.style.left = '0';
     overlay.style.width = '100vw';
-    overlay.style.height = '100vh';
+    overlay.style.height = '100dvh';
     overlay.style.pointerEvents = 'none';
     overlay.style.zIndex = '9999';
     overlay.style.backgroundColor = colorMode === 'light' ? '#060809' : '#F7F8FA';
