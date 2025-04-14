@@ -2,13 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { ChakraProvider } from '@chakra-ui/react';
-import Default from './pages/default';
-
+import MyRoutes from "./routes";
+import { BrowserRouter as Router } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 <ChakraProvider>
     <React.StrictMode>
-        <Default />
+        <Router>
+            <MyRoutes />
+        </Router>
     </React.StrictMode>
 </ChakraProvider>
 );
