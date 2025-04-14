@@ -6,9 +6,11 @@ import {
   useColorModeValue,
   Container,
   Link,
-  Flex,
+  Show,
+  Hide,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { FaGithub, FaInstagram, FaFacebook, FaLinkedin } from "react-icons/fa6";
 
 const Default = () => {
   return (
@@ -79,18 +81,53 @@ const Default = () => {
                 </Text>
               </Box>
               <HStack spacing={4}>
-                <Link className="poppins-light" href="#" fontSize="sm">
-                  @github
-                </Link>
-                <Link className="poppins-light" href="#" fontSize="sm">
-                  @instagram
-                </Link>
-                <Link className="poppins-light" href="#" fontSize="sm">
-                  @facebook
-                </Link>
-                <Link className="poppins-light" href="#" fontSize="sm">
-                  @linkedin
-                </Link>
+                {/* GitHub */}
+                <Show above="md">
+                  <Link className="poppins-light" href="#" fontSize="sm">
+                    @github
+                  </Link>
+                </Show>
+                <Hide above="md">
+                  <Link href="#" display="flex" alignItems="center">
+                    <FaGithub size={20} />
+                  </Link>
+                </Hide>
+
+                {/* Instagram */}
+                <Show above="md">
+                  <Link className="poppins-light" href="#" fontSize="sm">
+                    @instagram
+                  </Link>
+                </Show>
+                <Hide above="md">
+                  <Link href="#" display="flex" alignItems="center">
+                    <FaInstagram size={20} />
+                  </Link>
+                </Hide>
+
+                {/* Facebook */}
+                <Show above="md">
+                  <Link className="poppins-light" href="#" fontSize="sm">
+                    @facebook
+                  </Link>
+                </Show>
+                <Hide above="md">
+                  <Link href="#" display="flex" alignItems="center">
+                    <FaFacebook size={20} />
+                  </Link>
+                </Hide>
+
+                {/* LinkedIn */}
+                <Show above="md">
+                  <Link className="poppins-light" href="#" fontSize="sm">
+                    @linkedin
+                  </Link>
+                </Show>
+                <Hide above="md">
+                  <Link href="#" display="flex" alignItems="center">
+                    <FaLinkedin size={20} />
+                  </Link>
+                </Hide>
               </HStack>
             </HStack>
           </Box>
