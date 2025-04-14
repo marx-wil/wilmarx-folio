@@ -14,7 +14,7 @@ import { FaGithub, FaInstagram, FaFacebook, FaLinkedin } from "react-icons/fa6";
 
 const Default = () => {
   return (
-    <Box position="relative" h="100vh" w="100vw">
+    <Box position="relative" h="100dvh" w="100vw">
       {/* Vertical Line */}
       <Box
         position="absolute"
