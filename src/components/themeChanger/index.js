@@ -90,6 +90,26 @@ const ThemeChanger = ({ onThemeChange }) => {
             ],
             ease: "power2.inOut"
           }, "-=0.2");
+
+        // Add sparkle effect
+        const sparkle = document.createElement('div');
+        sparkle.style.position = 'absolute';
+        sparkle.style.top = '50%';
+        sparkle.style.left = '50%';
+        sparkle.style.width = '200px';
+        sparkle.style.height = '200px';
+        sparkle.style.transform = 'translate(-50%, -50%)';
+        sparkle.style.background = 'radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%)';
+        sparkle.style.pointerEvents = 'none';
+        buttonRef.current.appendChild(sparkle);
+
+        gsap.to(sparkle, {
+          opacity: 0,
+          scale: 2,
+          duration: 0.6,
+          ease: "power2.out",
+          onComplete: () => sparkle.remove()
+        });
       }
     });
 
