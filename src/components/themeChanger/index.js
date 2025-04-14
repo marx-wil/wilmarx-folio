@@ -8,7 +8,7 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
-const ThemeChanger = () => {
+const ThemeChanger = ({ onThemeChange }) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const buttonRef = useRef(null);
   const iconRef = useRef(null);
@@ -35,7 +35,7 @@ const ThemeChanger = () => {
     const rippleX = buttonBounds.right;
     const rippleY = buttonBounds.bottom;
 
-    // Initial icon fade out
+    // Initial icon fade out with rotation
     tl.to(iconRef.current, {
       rotate: 90,
       scale: 0,
@@ -56,6 +56,9 @@ const ThemeChanger = () => {
         toggleColorMode();
         setCurrentIcon(currentIcon === "moon" ? "sun" : "moon");
         
+        // Notify parent layout of theme change
+        onThemeChange?.(colorMode === 'light' ? 'dark' : 'light');
+        
         // Fade out overlay
         gsap.to(overlay, {
           opacity: 0,
@@ -65,7 +68,7 @@ const ThemeChanger = () => {
           }
         });
 
-        // Animate new icon
+        // Animate new icon with enhanced effects
         const newIconTl = gsap.timeline();
         newIconTl
           .set(iconRef.current, {
@@ -104,13 +107,15 @@ const ThemeChanger = () => {
   useEffect(() => {
     gsap.from(buttonRef.current, {
       opacity: 0,
-      duration: 1,
-      ease: "power2.out"
+      scale: 0.8,
+      duration: 0.6,
+      ease: "back.out(1.7)",
+      delay: 0.8
     });
   }, []);
 
   return (
-    <Box position={"absolute"} bottom={10} right={10}>
+    <Box position={"absolute"} bottom={10} right={10} zIndex={1000}>
       <IconButton
         ref={buttonRef}
         icon={
