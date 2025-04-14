@@ -12,6 +12,8 @@ const Layout = (Component) => {
     const waveRef1 = useRef(null);
     const waveRef2 = useRef(null);
     const waveRef3 = useRef(null);
+    const cursorRef = useRef(null);
+    const cursorDotRef = useRef(null);
     
     const bgColor = useColorModeValue("#F7F8FA", "#060809");
     const textColor = colorMode === "light" ? "black" : "white";
@@ -122,6 +124,56 @@ const Layout = (Component) => {
       }
     }, [colorMode, bgColor, textColor, waveColor1, waveColor2, waveColor3]);
 
+    // Add mouse movement effect
+    useEffect(() => {
+      let mouseX = 0;
+      let mouseY = 0;
+      let cursorX = 0;
+      let cursorY = 0;
+      let dotX = 0;
+      let dotY = 0;
+
+      const onMouseMove = (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      };
+
+      const updateCursor = () => {
+        // Smooth lerp for main cursor
+        cursorX += (mouseX - cursorX) * 0.15;
+        cursorY += (mouseY - cursorY) * 0.15;
+        
+        // Faster lerp for dot cursor
+        dotX += (mouseX - dotX) * 0.35;
+        dotY += (mouseY - dotY) * 0.35;
+        
+        if (cursorRef.current && cursorDotRef.current) {
+          gsap.set(cursorRef.current, {
+            x: cursorX,
+            y: cursorY,
+            xPercent: -50,
+            yPercent: -50
+          });
+          
+          gsap.set(cursorDotRef.current, {
+            x: dotX,
+            y: dotY,
+            xPercent: -50,
+            yPercent: -50
+          });
+        }
+        
+        requestAnimationFrame(updateCursor);
+      };
+
+      window.addEventListener("mousemove", onMouseMove);
+      updateCursor();
+
+      return () => {
+        window.removeEventListener("mousemove", onMouseMove);
+      };
+    }, []);
+
     return (
       <Box
         ref={containerRef}
@@ -146,9 +198,35 @@ const Layout = (Component) => {
             backgroundSize: "200% 200%",
             pointerEvents: "none",
             zIndex: 0
+          },
+          cursor: "none", // Hide default cursor
+          "& a, & button": {
+            cursor: "none" // Hide cursor on interactive elements
           }
         }}
       >
+        {/* Custom Cursor */}
+        <Box
+          ref={cursorRef}
+          position="fixed"
+          width="40px"
+          height="40px"
+          borderRadius="full"
+          border="1px solid"
+          borderColor={useColorModeValue("rgba(79, 79, 79, 0.3)", "rgba(247, 248, 250, 0.3)")}
+          pointerEvents="none"
+          zIndex={9999}
+        />
+        <Box
+          ref={cursorDotRef}
+          position="fixed"
+          width="8px"
+          height="8px"
+          borderRadius="full"
+          bg={useColorModeValue("rgba(79, 79, 79, 0.8)", "rgba(247, 248, 250, 0.8)")}
+          pointerEvents="none"
+          zIndex={9999}
+        />
         {/* Layered Wavy Circle Background */}
         <Box
           position="absolute"
