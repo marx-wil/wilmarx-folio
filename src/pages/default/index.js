@@ -8,7 +8,7 @@ import {
   Link,
   Show,
 } from "@chakra-ui/react";
-import Nav from "../../components/Nav";
+import Nav from "../../components/navigation";
 
 const Default = () => {
   return (
