@@ -30,7 +30,7 @@ const Default = () => {
           <Box pl={24}>
             <Text
               fontSize="sm"
-              
+              className="poppins-light"
               color={useColorModeValue("gray.600", "gray.400")}
             >
               {/* current year */}
@@ -51,6 +51,7 @@ const Default = () => {
                 letterSpacing="tight"
                 lineHeight="1"
                 className="poppins-semibold"
+                color={useColorModeValue("#4F4F4F", "#F7F8FA")}
               >
                 My Portfolio
               </Text>
@@ -65,13 +66,14 @@ const Default = () => {
                   fontSize="sm"
                   fontWeight="medium"
                   className="poppins-light"
+                color={useColorModeValue("#060809", "#4F4F4F")}
                 >
                   Wilmarx John Cayabyab
                 </Text>
                 <Text
                   fontSize="xs"
                   className="poppins-light"
-                  color={useColorModeValue("gray.600", "gray.400")}
+                color={useColorModeValue("#4F4F4F", "#F7F8FA")}
                 >
                   IT / Systems Developer
                 </Text>
