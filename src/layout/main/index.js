@@ -80,9 +80,9 @@ const Layout = (Component) => {
         ref={containerRef}
         bg={bgColor}
         color={textColor}
-        minH="100vh"
+        minH="100dvh"
         minW="100vw"
-        maxH="100vh"
+        maxH="100dvh"
         maxW="100vw"
         width="100vw"
         overflow={"hidden"}
@@ -106,7 +106,7 @@ const Layout = (Component) => {
           ref={contentRef}
           position="relative"
           zIndex={1}
-          height="100%"
+          height="100dvh"
         >
           <Component {...props} />
         </Box>
