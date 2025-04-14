@@ -1,4 +1,4 @@
-import { Box, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { Box, useColorMode, useColorModeValue, useBreakpointValue } from "@chakra-ui/react";
 import ThemeChanger from "../../components/themeChanger";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
@@ -9,13 +9,31 @@ const Layout = (Component) => {
     const containerRef = useRef(null);
     const contentRef = useRef(null);
     const layoutTimeline = useRef(null);
+    const waveRef1 = useRef(null);
+    const waveRef2 = useRef(null);
+    const waveRef3 = useRef(null);
     
-    // Move color mode values outside of the callback
     const bgColor = useColorModeValue("#F7F8FA", "#060809");
     const textColor = colorMode === "light" ? "black" : "white";
-    const gradientLight = "radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0) 100%)";
-    const gradientDark = "radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0) 100%)";
+    const waveColor1 = useColorModeValue("rgba(79, 79, 79, 0.045)", "rgba(247, 248, 250, 0.015)");
+    const waveColor2 = useColorModeValue("rgba(79, 79, 79, 0.035)", "rgba(247, 248, 250, 0.012)");
+    const waveColor3 = useColorModeValue("rgba(79, 79, 79, 0.025)", "rgba(247, 248, 250, 0.009)");
+    const gradientLight = "radial-gradient(circle at 50% 50%, rgba(79, 79, 79, 0.02), rgba(79, 79, 79, 0) 100%)";
+    const gradientDark = "radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.008), rgba(255, 255, 255, 0) 100%)";
     const backgroundImage = useColorModeValue(gradientLight, gradientDark);
+    
+    const waveSize = useBreakpointValue({ 
+      base: "min(150vw, 150vh)",    // Larger on mobile
+      sm: "min(130vw, 130vh)",      // Slightly smaller on small tablets
+      md: "min(140vw, 140vh)",      // Increased size for desktop
+      lg: "min(130vw, 130vh)"       // Slightly smaller for large screens
+    });
+    const waveScale = useBreakpointValue({
+      base: "1.5",    // Larger scale on mobile
+      sm: "1.4",
+      md: "1.35",     // Slightly increased scale for desktop
+      lg: "1.3"
+    });
 
     // Initialize GSAP timeline
     useEffect(() => {
@@ -36,15 +54,38 @@ const Layout = (Component) => {
         opacity: 0,
         duration: 0.6,
         ease: "power3.out"
-      }, "-=0.4");
+      }, "-=0.4")
+      .from([waveRef1.current, waveRef2.current, waveRef3.current], {
+        scale: 0.8,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: "power3.out"
+      }, "-=0.6");
 
-      // Add subtle background texture animation
-      gsap.to(containerRef.current, {
-        backgroundPosition: '100% 100%',
-        duration: 20,
+      // Add subtle wave animations with different timings
+      gsap.to(waveRef1.current, {
+        y: "+=15",
+        duration: 10,
         repeat: -1,
-        ease: "none",
-        yoyo: true
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+      
+      gsap.to(waveRef2.current, {
+        y: "+=25",
+        duration: 12,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+      
+      gsap.to(waveRef3.current, {
+        y: "+=35",
+        duration: 14,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
       });
     }, []);
 
@@ -66,6 +107,12 @@ const Layout = (Component) => {
             duration: 0.6,
             ease: "power2.inOut"
           })
+          .to([waveRef1.current, waveRef2.current, waveRef3.current], {
+            fill: [waveColor1, waveColor2, waveColor3],
+            duration: 0.6,
+            stagger: 0.1,
+            ease: "power2.inOut"
+          }, "-=0.6")
           .to(contentRef.current, {
             y: 0,
             opacity: 1,
@@ -73,7 +120,7 @@ const Layout = (Component) => {
             ease: "power2.out"
           }, "-=0.3");
       }
-    }, [colorMode, bgColor, textColor]);
+    }, [colorMode, bgColor, textColor, waveColor1, waveColor2, waveColor3]);
 
     return (
       <Box
@@ -102,6 +149,122 @@ const Layout = (Component) => {
           }
         }}
       >
+        {/* Layered Wavy Circle Background */}
+        <Box
+          position="absolute"
+          top="50%"
+          left="50%"
+          transform="translate(-50%, -50%)"
+          width={waveSize}
+          height={waveSize}
+          zIndex={0}
+          pointerEvents="none"
+          overflow="visible"
+        >
+          {/* Layer 1 - Largest wave */}
+          <svg
+            ref={waveRef1}
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "100%",
+              height: "100%",
+              aspectRatio: "1/1"
+            }}
+            viewBox="0 0 1000 1000"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <path
+              d="M500,100 C700,100 800,300 800,500 C800,700 700,900 500,900 C300,900 200,700 200,500 C200,300 300,100 500,100 Z"
+              fill={waveColor1}
+              style={{
+                transformOrigin: "center",
+                transform: `scale(${waveScale})`,
+              }}
+            >
+              <animate
+                attributeName="d"
+                dur="20s"
+                repeatCount="indefinite"
+                values="
+                  M500,100 C700,100 800,300 800,500 C800,700 700,900 500,900 C300,900 200,700 200,500 C200,300 300,100 500,100 Z;
+                  M500,100 C650,100 750,250 750,500 C750,750 650,900 500,900 C350,900 250,750 250,500 C250,250 350,100 500,100 Z;
+                  M500,100 C700,100 800,300 800,500 C800,700 700,900 500,900 C300,900 200,700 200,500 C200,300 300,100 500,100 Z"
+              />
+            </path>
+          </svg>
+          
+          {/* Layer 2 - Medium wave */}
+          <svg
+            ref={waveRef2}
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "96%",
+              height: "96%",
+            }}
+            viewBox="0 0 1000 1000"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <path
+              d="M500,150 C650,150 750,300 750,500 C750,700 650,850 500,850 C350,850 250,700 250,500 C250,300 350,150 500,150 Z"
+              fill={waveColor2}
+              style={{
+                transformOrigin: "center",
+                transform: `scale(${Number(waveScale) * 0.96})`,
+              }}
+            >
+              <animate
+                attributeName="d"
+                dur="18s"
+                repeatCount="indefinite"
+                values="
+                  M500,150 C650,150 750,300 750,500 C750,700 650,850 500,850 C350,850 250,700 250,500 C250,300 350,150 500,150 Z;
+                  M500,150 C600,150 700,275 700,500 C700,725 600,850 500,850 C400,850 300,725 300,500 C300,275 400,150 500,150 Z;
+                  M500,150 C650,150 750,300 750,500 C750,700 650,850 500,850 C350,850 250,700 250,500 C250,300 350,150 500,150 Z"
+              />
+            </path>
+          </svg>
+          
+          {/* Layer 3 - Smallest wave */}
+          <svg
+            ref={waveRef3}
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "92%",
+              height: "92%",
+            }}
+            viewBox="0 0 1000 1000"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <path
+              d="M500,200 C600,200 700,350 700,500 C700,650 600,800 500,800 C400,800 300,650 300,500 C300,350 400,200 500,200 Z"
+              fill={waveColor3}
+              style={{
+                transformOrigin: "center",
+                transform: `scale(${Number(waveScale) * 0.92})`,
+              }}
+            >
+              <animate
+                attributeName="d"
+                dur="15s"
+                repeatCount="indefinite"
+                values="
+                  M500,200 C600,200 700,350 700,500 C700,650 600,800 500,800 C400,800 300,650 300,500 C300,350 400,200 500,200 Z;
+                  M500,200 C550,200 650,325 650,500 C650,675 550,800 500,800 C450,800 350,675 350,500 C350,325 450,200 500,200 Z;
+                  M500,200 C600,200 700,350 700,500 C700,650 600,800 500,800 C400,800 300,650 300,500 C300,350 400,200 500,200 Z"
+              />
+            </path>
+          </svg>
+        </Box>
+
         <Box
           ref={contentRef}
           position="relative"
@@ -110,6 +273,7 @@ const Layout = (Component) => {
         >
           <Component {...props} />
         </Box>
+        
         <ThemeChanger onThemeChange={(mode) => {
           // Additional theme-specific animations can be added here
           gsap.to(containerRef.current, {
