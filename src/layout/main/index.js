@@ -1,6 +1,6 @@
 import { Box, useColorMode, useColorModeValue, useBreakpointValue } from "@chakra-ui/react";
 import ThemeChanger from "../../components/themeChanger";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 const Layout = (Component) => {
@@ -14,9 +14,13 @@ const Layout = (Component) => {
     const waveRef3 = useRef(null);
     const cursorRef = useRef(null);
     const cursorDotRef = useRef(null);
+    const [ripples, setRipples] = useState([]);
     
     const bgColor = useColorModeValue("#F7F8FA", "#060809");
     const textColor = colorMode === "light" ? "black" : "white";
+    const cursorColor = useColorModeValue("rgba(79, 79, 79, 0.3)", "rgba(247, 248, 250, 0.3)");
+    const cursorDotColor = useColorModeValue("rgba(79, 79, 79, 0.8)", "rgba(247, 248, 250, 0.8)");
+    const rippleColor = useColorModeValue("rgba(79, 79, 79, 0.15)", "rgba(247, 248, 250, 0.15)");
     const waveColor1 = useColorModeValue("rgba(79, 79, 79, 0.045)", "rgba(247, 248, 250, 0.015)");
     const waveColor2 = useColorModeValue("rgba(79, 79, 79, 0.035)", "rgba(247, 248, 250, 0.012)");
     const waveColor3 = useColorModeValue("rgba(79, 79, 79, 0.025)", "rgba(247, 248, 250, 0.009)");
@@ -174,6 +178,79 @@ const Layout = (Component) => {
       };
     }, []);
 
+    // Add ripple effect
+    const createRipple = (e) => {
+      const rippleId = Date.now();
+      const newRipple = {
+        id: rippleId,
+        x: e.clientX,
+        y: e.clientY
+      };
+      
+      setRipples(prev => [...prev, newRipple]);
+      
+      // Animate and remove the ripple
+      const timeline = gsap.timeline();
+      
+      timeline.fromTo(`#ripple-${rippleId}`,
+        {
+          scale: 0,
+          opacity: 0.8,
+        },
+        {
+          scale: 4,
+          opacity: 0,
+          duration: 1,
+          ease: "power2.out",
+          onComplete: () => {
+            setRipples(prev => prev.filter(r => r.id !== rippleId));
+          }
+        }
+      );
+    };
+
+    useEffect(() => {
+      const handleClick = () => {
+        // Ripple animation for waves
+        const tl = gsap.timeline();
+        
+        // Animate each wave with a staggered ripple effect
+        tl.to([waveRef1.current, waveRef2.current, waveRef3.current], {
+          scale: "+=0.05",
+          duration: 0.4,
+          ease: "power2.out",
+          stagger: 0.1,
+        }).to([waveRef1.current, waveRef2.current, waveRef3.current], {
+          scale: "-=0.05",
+          duration: 1,
+          ease: "elastic.out(1, 0.3)",
+          stagger: 0.1,
+        });
+
+        // Animate cursor on click
+        if (cursorRef.current && cursorDotRef.current) {
+          gsap.to(cursorRef.current, {
+            scale: 0.85,
+            duration: 0.15,
+            ease: "power2.out",
+            yoyo: true,
+            repeat: 1
+          });
+          
+          gsap.to(cursorDotRef.current, {
+            scale: 0.5,
+            duration: 0.15,
+            ease: "power2.out",
+            yoyo: true,
+            repeat: 1
+          });
+        }
+      };
+
+      window.addEventListener("click", handleClick);
+      return () => window.removeEventListener("click", handleClick);
+    }, []);
+
     return (
       <Box
         ref={containerRef}
@@ -205,6 +282,26 @@ const Layout = (Component) => {
           }
         }}
       >
+        {/* Ripple Effects */}
+        {ripples.map(ripple => (
+          <Box
+            key={ripple.id}
+            id={`ripple-${ripple.id}`}
+            position="fixed"
+            top={0}
+            left={0}
+            width="60px"
+            height="60px"
+            borderRadius="full"
+            bg={rippleColor}
+            style={{
+              transform: `translate(${ripple.x - 30}px, ${ripple.y - 30}px)`,
+              pointerEvents: "none",
+              zIndex: 9998
+            }}
+          />
+        ))}
+
         {/* Custom Cursor */}
         <Box
           ref={cursorRef}
@@ -213,9 +310,12 @@ const Layout = (Component) => {
           height="40px"
           borderRadius="full"
           border="1px solid"
-          borderColor={useColorModeValue("rgba(79, 79, 79, 0.3)", "rgba(247, 248, 250, 0.3)")}
+          borderColor={cursorColor}
           pointerEvents="none"
           zIndex={9999}
+          style={{
+            transformOrigin: "center"
+          }}
         />
         <Box
           ref={cursorDotRef}
@@ -223,9 +323,12 @@ const Layout = (Component) => {
           width="8px"
           height="8px"
           borderRadius="full"
-          bg={useColorModeValue("rgba(79, 79, 79, 0.8)", "rgba(247, 248, 250, 0.8)")}
+          bg={cursorDotColor}
           pointerEvents="none"
           zIndex={9999}
+          style={{
+            transformOrigin: "center"
+          }}
         />
         {/* Layered Wavy Circle Background */}
         <Box
