@@ -12,7 +12,6 @@ const Nav = () => {
   const tl = useRef(null);
 
   // Theme-aware colors
-  const bgColor = useColorModeValue("#F7F8FA", "#060809");
   const textColor = useColorModeValue("black", "white");
   const overlayBg = useColorModeValue("rgba(6, 8, 9, 0.98)", "rgba(247, 248, 250, 0.98)");
   const overlayTextColor = useColorModeValue("white", "black");
