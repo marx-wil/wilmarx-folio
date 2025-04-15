@@ -11,15 +11,177 @@ import {
 } from "@chakra-ui/react";
 import HeroSection from "../../components/heroSection";
 import dev_avatar from "../../assets/me/myphoto.jpg";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
+const ImageOverlay = ({ isOpen, onClose, imageSrc }) => {
+  const overlayRef = useRef(null);
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      // Animate overlay and image when opening
+      gsap.to(overlayRef.current, {
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        duration: 0.3,
+        ease: "power2.inOut",
+      });
+      gsap.fromTo(
+        imageRef.current,
+        { 
+          scale: 0.5,
+          opacity: 0,
+          y: 50
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: "back.out(1.7)",
+        }
+      );
+    }
+  }, [isOpen]);
+
+  const handleClose = () => {
+    // Animate out before closing
+    gsap.to(overlayRef.current, {
+      backgroundColor: "rgba(0, 0, 0, 0)",
+      duration: 0.3,
+      ease: "power2.inOut",
+    });
+    gsap.to(imageRef.current, {
+      scale: 0.5,
+      opacity: 0,
+      y: 50,
+      duration: 0.3,
+      ease: "power2.in",
+      onComplete: onClose,
+    });
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <Box
+      ref={overlayRef}
+      position="fixed"
+      top={0}
+      left={0}
+      right={0}
+      bottom={0}
+      backgroundColor="rgba(0, 0, 0, 0)"
+      zIndex={1000}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      onClick={handleClose}
+    >
+      <Box
+        ref={imageRef}
+        maxW="90vw"
+        maxH="90vh"
+        overflow="hidden"
+        borderRadius="xl"
+        display="flex"
+        alignItems="center"
+      >
+        <Image
+          src={imageSrc}
+          alt="Wilmarx"
+          objectFit="cover"
+          objectPosition="center center"
+          maxH="90vh"
+          w="auto"
+          h="auto"
+        />
+      </Box>
+    </Box>
+  );
+};
+
+const Callout = () => {
+  const calloutRef = useRef(null);
+  const timeline = useRef(null);
+
+  useEffect(() => {
+    if (window.innerWidth >= 768) return; // Only show on mobile
+
+    timeline.current = gsap.timeline({ repeat: -1 })
+      .set(calloutRef.current, { 
+        display: 'block',
+        opacity: 0,
+        scale: 0.5,
+        y: 20
+      })
+      .to(calloutRef.current, {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "back.out(1.7)"
+      })
+      .to(calloutRef.current, {
+        opacity: 1,
+        duration: 2
+      })
+      .to(calloutRef.current, {
+        opacity: 0,
+        scale: 0.8,
+        y: -10,
+        duration: 0.3,
+        ease: "power2.in"
+      })
+      .set(calloutRef.current, { 
+        display: 'none'
+      })
+      .to({}, { duration: 4 }); // Wait 4 seconds before next animation
+
+    return () => {
+      if (timeline.current) {
+        timeline.current.kill();
+      }
+    };
+  }, []);
+
+  return (
+    <Box
+      ref={calloutRef}
+      position="absolute"
+      top="-40px"
+      left="50%"
+      transform="translateX(-50%)"
+      bg={useColorModeValue("blue.500", "blue.300")}
+      color="white"
+      px={3}
+      py={2}
+      borderRadius="lg"
+      fontSize="sm"
+      fontWeight="medium"
+      display="none"
+      boxShadow="lg"
+      _before={{
+        content: '""',
+        position: "absolute",
+        bottom: "-6px",
+        left: "50%",
+        transform: "translateX(-50%)",
+        borderLeft: "6px solid transparent",
+        borderRight: "6px solid transparent",
+        borderTop: `6px solid ${useColorModeValue("var(--chakra-colors-blue-500)", "var(--chakra-colors-blue-300)")}`
+      }}
+    >
+      Click me!
+    </Box>
+  );
+};
+
 const AboutContent = () => {
-  // Responsive values
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const titleSize = useBreakpointValue({ base: "4xl", md: "4xl", lg: "6xl" });
   const textSize = useBreakpointValue({ base: "sm", md: "md" });
   const spacing = useBreakpointValue({ base: 6, md: 8 });
-  
   const imageRef = useRef(null);
 
   const playSwingAnimation = () => {
@@ -36,6 +198,10 @@ const AboutContent = () => {
         transformOrigin: "top center"
       }
     );
+  };
+
+  const handleImageClick = () => {
+    setIsOverlayOpen(true);
   };
 
   useEffect(() => {
@@ -82,6 +248,12 @@ const AboutContent = () => {
               as="span"
               color={useColorModeValue("blue.500", "blue.300")}
               position="relative"
+              cursor={{ base: "pointer", md: "default" }}
+              onClick={() => {
+                if (window.innerWidth < 768) {
+                  setIsOverlayOpen(true);
+                }
+              }}
               _after={{
                 content: '""',
                 position: "absolute",
@@ -96,6 +268,9 @@ const AboutContent = () => {
             >
               {" "}
               Me
+              <Box display={{ base: "block", md: "none" }}>
+                <Callout />
+              </Box>
             </Text>
           </Text>
 
@@ -160,7 +335,6 @@ const AboutContent = () => {
           </Box>
         </GridItem>
 
-        {/* Right column - Image with minimal design */}
         <GridItem display={{ base: "none", md: "block" }} alignSelf="center" position="relative">
           <Box
             ref={imageRef}
@@ -168,7 +342,7 @@ const AboutContent = () => {
             padding="3"
             cursor="pointer"
             onMouseEnter={playSwingAnimation}
-            onClick={playSwingAnimation}
+            onClick={handleImageClick}
             _before={{
               content: '""',
               position: "absolute",
@@ -191,6 +365,7 @@ const AboutContent = () => {
               height="auto"
               maxH="500px"
               objectFit="cover"
+              objectPosition="center"
               borderRadius="xl"
               transition="all 0.3s ease"
               _hover={{
@@ -200,6 +375,12 @@ const AboutContent = () => {
           </Box>
         </GridItem>
       </Grid>
+
+      <ImageOverlay
+        isOpen={isOverlayOpen}
+        onClose={() => setIsOverlayOpen(false)}
+        imageSrc={dev_avatar}
+      />
 
       {/* Footer tag */}
       <Flex justify="flex-end" mt={4}>
