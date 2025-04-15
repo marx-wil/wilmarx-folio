@@ -7,17 +7,26 @@ import {
   Container,
   Flex,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import SocialLinksLg from "../../components/socialLinksLg";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-const HeroSectionWithSocialLinks = () => {
+const HeroSectionWithSocialLinks = ({ 
+  heroText,
+  footerHead, 
+  footerBody, 
+  footerSub, 
+  navigateTo = "/" 
+}) => {
   const nameRef = useRef(null);
   const arrowRef = useRef(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const nameElement = nameRef.current;
     const arrowElement = arrowRef.current;
+
+    if (!nameElement || !arrowElement) return;
 
     const timeline = gsap.timeline({ paused: true });
 
@@ -45,8 +54,11 @@ const HeroSectionWithSocialLinks = () => {
     nameElement.addEventListener("mouseleave", handleHoverOut);
 
     return () => {
-      nameElement.removeEventListener("mouseenter", handleHover);
-      nameElement.removeEventListener("mouseleave", handleHoverOut);
+      if (nameElement) {
+        nameElement.removeEventListener("mouseenter", handleHover);
+        nameElement.removeEventListener("mouseleave", handleHoverOut);
+      }
+      timeline.kill();
     };
   }, []);
 
@@ -86,14 +98,25 @@ const HeroSectionWithSocialLinks = () => {
               className="poppins"
               color={useColorModeValue("#4f4f4f", "#F7F8FA")}
             >
-              My Portfolio
+              {heroText}
             </Text>
           </Box>
 
           {/* Bottom Section */}
           <Box pl={{ base: 8, md: 24 }}>
             <HStack spacing={8} justify="space-between">
-              <Box position="relative" ref={nameRef}>
+              <Box 
+                position="relative" 
+                ref={nameRef}
+                onClick={() => navigate(navigateTo)}
+                cursor="pointer"
+                role="button"
+                aria-label={`Navigate to ${footerBody}`}
+                _hover={{
+                  opacity: 0.9
+                }}
+                transition="opacity 0.2s ease"
+              >
                 <Text
                   fontSize="sm"
                   fontWeight="light"
@@ -102,7 +125,7 @@ const HeroSectionWithSocialLinks = () => {
                   mb={1}
                   style={{ transform: "translateX(0)" }}
                 >
-                  Cayabyab
+                  {footerHead}
                 </Text>
                 <Text
                   fontSize={{ base: "2xl", md: "4xl" }}
@@ -113,7 +136,7 @@ const HeroSectionWithSocialLinks = () => {
                   mb={1}
                   style={{ transform: "translateX(0)" }}
                 >
-                  Wilmarx John
+                  {footerBody}
                 </Text>
                 <Flex w="full" justify="flex-end">
                   <Text
@@ -124,7 +147,7 @@ const HeroSectionWithSocialLinks = () => {
                     className="poppins-light"
                     style={{ transform: "translateX(0)" }}
                   >
-                    IT / Systems Developer
+                    {footerSub}
                   </Text>
                 </Flex>
                 <Box
