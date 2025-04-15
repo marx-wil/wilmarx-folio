@@ -12,11 +12,33 @@ const ThemeChanger = ({ onThemeChange }) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const buttonRef = useRef(null);
   const iconRef = useRef(null);
+  const [isMounted, setIsMounted] = useState(false);
   const [currentIcon, setCurrentIcon] = useState(
     colorMode === "light" ? "moon" : "sun"
   );
 
+  // Move all useColorModeValue hooks to the top level
+  const buttonBg = useColorModeValue("#060809", "#F7F8FA");
+  const buttonColor = useColorModeValue("#F7F8FA", "#060809");
+  const hoverBg = useColorModeValue("#F7F8FA", "#060809");
+  const hoverColor = useColorModeValue("#060809", "#F7F8FA");
+
+  // Set mounted state
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  // Update icon when color mode changes
+  useEffect(() => {
+    if (isMounted) {
+      setCurrentIcon(colorMode === "light" ? "moon" : "sun");
+    }
+  }, [colorMode, isMounted]);
+
   const handleThemeChange = () => {
+    if (!isMounted) return;
+
     const tl = gsap.timeline();
 
     // Create and animate overlay
@@ -145,17 +167,26 @@ const ThemeChanger = ({ onThemeChange }) => {
 
   // Initial mount animation
   useEffect(() => {
-    gsap.from(buttonRef.current, {
+    if (!isMounted) return;
+
+    const mountTl = gsap.timeline();
+    mountTl.from(buttonRef.current, {
       opacity: 0,
       scale: 0.8,
       duration: 0.6,
       ease: "back.out(1.7)",
       delay: 0.8,
     });
-  }, []);
+
+    return () => {
+      mountTl.kill();
+    };
+  }, [isMounted]);
+
+  if (!isMounted) return null;
 
   return (
-    <Box position={"absolute"} bottom={5} right={5} zIndex={1000}>
+    <Box position={"fixed"} bottom={5} right={5} zIndex={9999}>
       <IconButton
         ref={buttonRef}
         icon={
@@ -168,12 +199,12 @@ const ThemeChanger = ({ onThemeChange }) => {
         size={"lg"}
         rounded={"full"}
         boxShadow={"lg"}
-        bg={useColorModeValue("#060809", "#F7F8FA")}
-        color={useColorModeValue("#F7F8FA", "#060809")}
+        bg={buttonBg}
+        color={buttonColor}
         variant={"solid"}
         _hover={{
-          bg: useColorModeValue("#F7F8FA", "#060809"),
-          color: useColorModeValue("#060809", "#F7F8FA"),
+          bg: hoverBg,
+          color: hoverColor,
           transform: "scale(1.05)",
           transition: "all 0.2s ease-in-out",
         }}
