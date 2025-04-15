@@ -1,5 +1,4 @@
 import { Show, HStack, Link, Icon } from "@chakra-ui/react";
-import { FaGithub, FaInstagram, FaFacebook, FaLinkedin } from "react-icons/fa6";
 import socialLinksLg from "./data";
 const SocialLinksLg = () => {
   return (
