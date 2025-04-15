@@ -51,14 +51,13 @@ yarn dev
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-
 ## Commercial License
 
 This project is available for purchase. All rights reserved.
 
 ## License
 
-This software is released into the public domain under the Unlicense. See the [LICENSE](LICENSE) file for details.
+This project is licensed under a Custom Public View-Only License. See the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
