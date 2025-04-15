@@ -7,7 +7,6 @@ import {
   Container,
   Flex,
 } from "@chakra-ui/react";
-import Nav from "../../components/navigation";
 import SocialLinksLg from "../../components/socialLinksLg";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
@@ -21,19 +20,23 @@ const HeroSectionWithSocialLinks = () => {
     const arrowElement = arrowRef.current;
 
     const timeline = gsap.timeline({ paused: true });
-    
+
     timeline
       .to(arrowElement, {
         x: 10,
         duration: 0.3,
-        ease: "power2.out"
-      })
-      .to(nameElement.querySelectorAll('text'), {
-        x: 20,
-        duration: 0.3,
         ease: "power2.out",
-        stagger: 0.05
-      }, "<");
+      })
+      .to(
+        nameElement.querySelectorAll("text"),
+        {
+          x: 20,
+          duration: 0.3,
+          ease: "power2.out",
+          stagger: 0.05,
+        },
+        "<"
+      );
 
     const handleHover = () => timeline.play();
     const handleHoverOut = () => timeline.reverse();
@@ -58,8 +61,6 @@ const HeroSectionWithSocialLinks = () => {
         width="1px"
         bg={useColorModeValue("#4F4F4F", "#F7F8FA")}
       />
-      {/* Navigation */}
-      <Nav />
 
       {/* Main Content */}
       <Container maxW="container.xl" h="full">
