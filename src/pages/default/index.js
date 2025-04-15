@@ -7,6 +7,7 @@ import {
   Container,
   Link,
   Show,
+  Flex,
 } from "@chakra-ui/react";
 import Nav from "../../components/navigation";
 
@@ -55,23 +56,68 @@ const Default = () => {
 
           {/* Bottom Section */}
           <Box pl={24}>
-            <HStack spacing={8}>
-              <Box>
+            <HStack spacing={8} justify="space-between">
+              <Box position="relative">
                 <Text
                   fontSize="sm"
-                  fontWeight="medium"
-                  className="poppins"
+                  fontWeight="light"
+                  className="poppins-light"
                   color={useColorModeValue("#060809", "#F7F8FA")}
+                  mb={1}
                 >
-                  Wilmarx John Cayabyab
+                  Cayabyab
                 </Text>
                 <Text
-                  fontSize="xs"
-                  color={useColorModeValue("gray.600", "gray.400")}
-                  className="poppins-light"
+                  fontSize={{ base: "3xl", md: "4xl" }}
+                  fontWeight="medium"
+                  letterSpacing="wider"
+                  className="poppins"
+                  color={useColorModeValue("#060809", "#F7F8FA")}
+                  mb={1}
                 >
-                  IT / Systems Developer
+                  Wilmarx John
                 </Text>
+                <Flex w="full" justify="flex-end">
+                  <Text
+                    fontSize="xs"
+                    letterSpacing="0.2em"
+                    textTransform="uppercase"
+                    color={useColorModeValue("gray.600", "gray.400")}
+                    className="poppins-light"
+                  >
+                    IT / Systems Developer
+                  </Text>
+                </Flex>
+                <Box
+                  position="absolute"
+                  right="-80px"
+                  top="50%"
+                  transform="translateY(-50%)"
+                  w="60px"
+                  h="2px"
+                  bg={useColorModeValue("#060809", "#F7F8FA")}
+                >
+                  <Box
+                    position="absolute"
+                    right="-1px"
+                    top="50%"
+                    w="12px"
+                    h="2px"
+                    bg={useColorModeValue("#060809", "#F7F8FA")}
+                    transform="rotate(45deg)"
+                    transformOrigin="right center"
+                  />
+                  <Box
+                    position="absolute"
+                    right="-1px"
+                    top="50%"
+                    w="12px"
+                    h="2px"
+                    bg={useColorModeValue("#060809", "#F7F8FA")}
+                    transform="rotate(-45deg)"
+                    transformOrigin="right center"
+                  />
+                </Box>
               </Box>
               {/* Social Links - Only visible on desktop */}
               <Show above="md">
