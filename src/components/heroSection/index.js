@@ -9,7 +9,44 @@ import {
 } from "@chakra-ui/react";
 import Nav from "../../components/navigation";
 import SocialLinksLg from "../../components/socialLinksLg";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+
 const HeroSectionWithSocialLinks = () => {
+  const nameRef = useRef(null);
+  const arrowRef = useRef(null);
+
+  useEffect(() => {
+    const nameElement = nameRef.current;
+    const arrowElement = arrowRef.current;
+
+    const timeline = gsap.timeline({ paused: true });
+    
+    timeline
+      .to(arrowElement, {
+        x: 10,
+        duration: 0.3,
+        ease: "power2.out"
+      })
+      .to(nameElement.querySelectorAll('text'), {
+        x: 20,
+        duration: 0.3,
+        ease: "power2.out",
+        stagger: 0.05
+      }, "<");
+
+    const handleHover = () => timeline.play();
+    const handleHoverOut = () => timeline.reverse();
+
+    nameElement.addEventListener("mouseenter", handleHover);
+    nameElement.addEventListener("mouseleave", handleHoverOut);
+
+    return () => {
+      nameElement.removeEventListener("mouseenter", handleHover);
+      nameElement.removeEventListener("mouseleave", handleHoverOut);
+    };
+  }, []);
+
   return (
     <Box position="relative" h="100dvh" w="100vw">
       {/* Vertical line */}
@@ -55,13 +92,14 @@ const HeroSectionWithSocialLinks = () => {
           {/* Bottom Section */}
           <Box pl={{ base: 8, md: 24 }}>
             <HStack spacing={8} justify="space-between">
-              <Box position="relative">
+              <Box position="relative" ref={nameRef}>
                 <Text
                   fontSize="sm"
                   fontWeight="light"
                   className="poppins-light"
                   color={useColorModeValue("#060809", "#F7F8FA")}
                   mb={1}
+                  style={{ transform: "translateX(0)" }}
                 >
                   Cayabyab
                 </Text>
@@ -72,6 +110,7 @@ const HeroSectionWithSocialLinks = () => {
                   className="poppins"
                   color={useColorModeValue("#4F4F4F", "#D0D0D0")}
                   mb={1}
+                  style={{ transform: "translateX(0)" }}
                 >
                   Wilmarx John
                 </Text>
@@ -82,6 +121,7 @@ const HeroSectionWithSocialLinks = () => {
                     textTransform="uppercase"
                     color={useColorModeValue("gray.600", "gray.400")}
                     className="poppins-light"
+                    style={{ transform: "translateX(0)" }}
                   >
                     IT / Systems Developer
                   </Text>
@@ -94,6 +134,8 @@ const HeroSectionWithSocialLinks = () => {
                   w={{ base: "30px", sm: "45px", md: "60px" }}
                   h={{ base: "1.5px", md: "2px" }}
                   bg={useColorModeValue("#060809", "#F7F8FA")}
+                  ref={arrowRef}
+                  style={{ transform: "translate(0, -50%)" }}
                 >
                   <Box
                     position="absolute"
