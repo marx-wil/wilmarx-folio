@@ -5,6 +5,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import ThemeChanger from "../../components/themeChanger";
+import Nav from "../../components/navigation";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
@@ -459,6 +460,7 @@ const Layout = (Component) => {
         </Box>
 
         <Box ref={contentRef} position="relative" zIndex={1} height="100dvh">
+          <Nav />
           <Component {...props} />
         </Box>
 
