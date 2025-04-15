@@ -1,10 +1,13 @@
-import { Box, Text } from "@chakra-ui/react";
-
+import HeroSectionWithSocialLinks from "../../components/heroSection";
 const About = () => {
   return (
-    <Box>
-      <Text>About</Text>
-    </Box>
+    <HeroSectionWithSocialLinks
+      heroText="About Me"
+      footerHead="Projects I've "
+      footerBody="Worked on"
+      footerSub="Click to view"
+      navigateTo="/projects"
+    />
   );
 };
 
