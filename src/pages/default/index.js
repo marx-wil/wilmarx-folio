@@ -10,7 +10,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import Nav from "../../components/navigation";
-
+import SocialLinksLg from "../../components/socialLinksLg";
 const Default = () => {
   return (
     <Box position="relative" h="100dvh" w="100vw">
@@ -120,22 +120,7 @@ const Default = () => {
                 </Box>
               </Box>
               {/* Social Links - Only visible on desktop */}
-              <Show above="md">
-                <HStack spacing={4}>
-                  <Link className="poppins-light" href="#" fontSize="sm">
-                    @github
-                  </Link>
-                  <Link className="poppins-light" href="#" fontSize="sm">
-                    @instagram
-                  </Link>
-                  <Link className="poppins-light" href="#" fontSize="sm">
-                    @facebook
-                  </Link>
-                  <Link className="poppins-light" href="#" fontSize="sm">
-                    @linkedin
-                  </Link>
-                </HStack>
-              </Show>
+              <SocialLinksLg />
             </HStack>
           </Box>
         </VStack>
