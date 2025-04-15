@@ -4,7 +4,7 @@ import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
 import MyRoutes from "./routes";
 import { BrowserRouter as Router } from "react-router-dom";
-import "./pages/default/poppins.scss";
+import "./design/sass/poppins.scss";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ChakraProvider>
