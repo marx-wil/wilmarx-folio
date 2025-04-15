@@ -4,22 +4,22 @@ const socialLinksLg = [
   {
     name: "Github",
     icon: FaGithub,
-    link: "https://github.com/yourusername",
+    link: "https://github.com/marx-wil",
   },
   {
     name: "Instagram",
     icon: FaInstagram,
-    link: "https://www.instagram.com/yourusername",
+    link: "https://www.instagram.com/err.marx/",
   },
   {
     name: "Facebook",
     icon: FaFacebook,
-    link: "https://www.facebook.com/yourusername",
+    link: "https://www.facebook.com/err.marx",
   },
   {
     name: "Linkedin",
     icon: FaLinkedin,
-    link: "https://www.linkedin.com/in/yourusername",
+    link: "https://www.linkedin.com/in/wilmarx-cayabyab/",
   },
 ];
 
