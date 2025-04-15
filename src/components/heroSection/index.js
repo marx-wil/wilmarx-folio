@@ -6,30 +6,36 @@ import {
   useColorModeValue,
   Container,
   Flex,
+  IconButton,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import SocialLinksLg from "../../components/socialLinksLg";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { FaArrowLeft } from "react-icons/fa6";
 
 const HeroSection = (WrappedComponent) => {
-  const HeroSectionWithSocialLinks = ({ 
-    footerHead, 
-    footerBody, 
-    footerSub, 
-    navigateTo = "/" 
+  const HeroSectionWithSocialLinks = ({
+    footerHead,
+    footerBody,
+    footerSub,
+    navigateTo = "/",
   }) => {
     const nameRef = useRef(null);
     const arrowRef = useRef(null);
+    const backBtnRef = useRef(null);
     const navigate = useNavigate();
+    const location = useLocation();
+
     useEffect(() => {
       const nameElement = nameRef.current;
       const arrowElement = arrowRef.current;
+      const backBtn = backBtnRef.current;
 
-      if (!nameElement || !arrowElement) return;
+      if (!nameElement || !arrowElement || !backBtn) return;
 
+      // Original timeline for forward navigation
       const timeline = gsap.timeline({ paused: true });
-
       timeline
         .to(arrowElement, {
           x: 10,
@@ -47,20 +53,59 @@ const HeroSection = (WrappedComponent) => {
           "<"
         );
 
+      // Back button hover animation
+      const backBtnHover = gsap.to(backBtn, {
+        scale: 1.1,
+        rotate: -10,
+        duration: 0.3,
+        paused: true,
+        ease: "power2.out"
+      });
+
+      // Click animation
+      const backBtnClick = gsap.timeline({ paused: true });
+      backBtnClick
+        .to(backBtn, {
+          scale: 0.9,
+          duration: 0.1,
+          ease: "power2.in"
+        })
+        .to(backBtn, {
+          scale: 1,
+          duration: 0.2,
+          ease: "elastic.out(1, 0.3)"
+        });
+
       const handleHover = () => timeline.play();
       const handleHoverOut = () => timeline.reverse();
+      const handleBackHover = () => backBtnHover.play();
+      const handleBackHoverOut = () => backBtnHover.reverse();
+      const handleBackClick = () => {
+        backBtnClick.restart();
+        setTimeout(() => navigate(-1), 300);
+      };
 
       nameElement.addEventListener("mouseenter", handleHover);
       nameElement.addEventListener("mouseleave", handleHoverOut);
+      backBtn.addEventListener("mouseenter", handleBackHover);
+      backBtn.addEventListener("mouseleave", handleBackHoverOut);
+      backBtn.addEventListener("click", handleBackClick);
 
       return () => {
         if (nameElement) {
           nameElement.removeEventListener("mouseenter", handleHover);
           nameElement.removeEventListener("mouseleave", handleHoverOut);
         }
+        if (backBtn) {
+          backBtn.removeEventListener("mouseenter", handleBackHover);
+          backBtn.removeEventListener("mouseleave", handleBackHoverOut);
+          backBtn.removeEventListener("click", handleBackClick);
+        }
         timeline.kill();
+        backBtnHover.kill();
+        backBtnClick.kill();
       };
-    }, []);
+    }, [navigate]);
 
     return (
       <Box position="relative" h="100dvh" w="100vw">
@@ -78,7 +123,21 @@ const HeroSection = (WrappedComponent) => {
         <Container maxW="container.xl" h="full">
           <VStack h="full" align="stretch" justify="space-between" py={8}>
             {/* Top Section */}
-            <Box pl={{ base: 8, md: 24 }}>
+            <Box
+              pl={{ base: 8, md: 24 }}
+              display="flex"
+              alignItems="center"
+              gap={2}
+            >
+              {location.pathname !== "/" && (
+                <IconButton
+                  ref={backBtnRef}
+                  icon={<FaArrowLeft />}
+                  aria-label="Previous page"
+                  variant="outline"
+                  size="sm"
+                />
+              )}
               <Text
                 fontSize="sm"
                 className="poppins-light"
@@ -96,15 +155,15 @@ const HeroSection = (WrappedComponent) => {
             {/* Bottom Section */}
             <Box pl={{ base: 8, md: 24 }}>
               <HStack spacing={8} justify="space-between">
-                <Box 
-                  position="relative" 
+                <Box
+                  position="relative"
                   ref={nameRef}
                   onClick={() => navigate(navigateTo)}
                   cursor="pointer"
                   role="button"
                   aria-label={`Navigate to ${footerBody}`}
                   _hover={{
-                    opacity: 0.9
+                    opacity: 0.9,
                   }}
                   transition="opacity 0.2s ease"
                 >
