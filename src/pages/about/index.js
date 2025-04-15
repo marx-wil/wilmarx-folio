@@ -115,16 +115,16 @@ const AboutContent = () => {
           mb={1}
           style={{ transform: "translateX(0)" }}
           letterSpacing="0.05rem"
-          lineHeight="1.8"
+          lineHeight="1.4"
         >
           Hi, I'm Wilmarx — a passionate systems developer with a deep-rooted
           love for technology that goes way back. From a young age, I've always
           been fascinated by how things work behind the scenes, and that
           curiosity naturally led me to the world of development.
-          <Box display={{ base: "none", md: "block" }}>
+          <Box display={{ base: "none", lg: "block" }}>
             <br />
           </Box>
-          <Text as={"span"} display={{ base: "none", md: "inline-block" }}>
+          <Text as={"span"} display={{ base: "none", xl: "inline-block" }}>
             I currently work full-time in IT, where I help build and maintain
             systems that make everyday operations smoother and more efficient.
             Whether I'm designing backend architecture, writing code, or solving
