@@ -3,205 +3,229 @@ import {
   useColorModeValue,
   VStack,
   Box,
-  Container,
+  Image,
   Flex,
   useBreakpointValue,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 import HeroSection from "../../components/heroSection";
+import dev_avatar from "../../assets/me/myphoto.jpg";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 
-// Create a content component for the middle section
 const AboutContent = () => {
   // Responsive values
-  const headingSize = useBreakpointValue({ base: "2xl", md: "3xl", lg: "3xl" });
-  const titleSize = useBreakpointValue({ base: "4xl", md: "6xl", lg: "8xl" });
+  const titleSize = useBreakpointValue({ base: "4xl", md: "4xl", lg: "6xl" });
   const textSize = useBreakpointValue({ base: "sm", md: "md" });
   const spacing = useBreakpointValue({ base: 6, md: 8 });
-  const padding = useBreakpointValue({ base: 3, md: 4, lg: 6 });
-  const lineWidth = useBreakpointValue({ base: "40px", md: "60px" });
-  const lineHeight = useBreakpointValue({ base: "1px", md: "2px" });
-  const verticalLineWidth = useBreakpointValue({ base: "3px", md: "4px" });
-  const verticalLineLeft = useBreakpointValue({ base: "-15px", md: "-20px" });
-  const cardOffset = useBreakpointValue({ base: "3px", md: "4px" });
+  
+  const imageRef = useRef(null);
+
+  const playSwingAnimation = () => {
+    const imageContainer = imageRef.current;
+    gsap.fromTo(imageContainer,
+      { 
+        rotation: 2,
+        transformOrigin: "top center" 
+      },
+      {
+        rotation: 0,
+        duration: 2,
+        ease: "elastic.out(1, 0.3)",
+        transformOrigin: "top center"
+      }
+    );
+  };
+
+  useEffect(() => {
+    playSwingAnimation();
+  }, []);
 
   return (
     <VStack
-      align="flex-start"
+      align="stretch"
       spacing={spacing}
-      maxW="2xl"
+      maxW="5xl"
       w="full"
       px={{ base: 4, md: 0 }}
+      position="relative"
     >
-      <Box position="relative">
-        <Text
-          mb={0}
-          fontSize={headingSize}
-          fontWeight="bold"
-          letterSpacing="0.1rem"
-          lineHeight="1"
-          className="poppins"
-          color={useColorModeValue("#757575", "#A0A0A0")}
-          textTransform="uppercase"
-          position="relative"
-          _after={{
-            content: '""',
-            position: "absolute",
-            bottom: "-10px",
-            left: "1",
-            width: lineWidth,
-            height: lineHeight,
-            bg: useColorModeValue("#4f4f4f", "#F7F8FA"),
-            opacity: 0.5,
-          }}
-        >
-          <Text as={"span"} color={useColorModeValue("#4f4f4f", "#F7F8FA")}>
-            Who
-          </Text>{" "}
-          I Am
-        </Text>
-      </Box>
-
-      <Box position="relative" w="full">
-        <Text
-          fontSize={titleSize}
-          fontWeight="bold"
-          letterSpacing="tight"
-          lineHeight="1"
-          className="poppins"
-          color={useColorModeValue("#4f4f4f", "#F7F8FA")}
-          textTransform="uppercase"
-          position="relative"
-        >
-          About Me
-        </Text>
-      </Box>
-
-      <Box
-        position="relative"
+      <Grid
+        templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+        gap={24}
         w="full"
-        p={padding}
-        borderRadius="lg"
-        bg={useColorModeValue(
-          "rgba(79, 79, 79, 0.05)",
-          "rgba(247, 248, 250, 0.05)"
-        )}
-        boxShadow="sm"
-        _before={{
-          content: '""',
-          position: "absolute",
-          top: "0",
-          left: "0",
-          right: "0",
-          bottom: "0",
-          borderRadius: "lg",
-          border: "1px solid",
-          borderColor: useColorModeValue(
-            "rgba(79, 79, 79, 0.1)",
-            "rgba(247, 248, 250, 0.1)"
-          ),
-          transform: `translate(${cardOffset}, ${cardOffset})`,
-          zIndex: "-1",
-        }}
-        transition="all 0.3s ease"
-        _hover={{
-          transform: "translateY(-2px)",
-          boxShadow: "md",
-        }}
+        alignItems="center"
       >
-        <Text
-          fontSize={textSize}
-          className="poppins"
-          opacity={0.95}
-          color={useColorModeValue("#060809", "#F7F8FA")}
-          mb={1}
-          style={{ transform: "translateX(0)" }}
-          letterSpacing="0.05rem"
-          lineHeight="1.4"
-        >
-          Hi, I'm Wilmarx — a passionate systems developer with a deep-rooted
-          love for technology that goes way back. From a young age, I've always
-          been fascinated by how things work behind the scenes, and that
-          curiosity naturally led me to the world of development.
-          <Box display={{ base: "none", lg: "block" }}>
-            <br />
-          </Box>
-          <Text as={"span"} display={{ base: "none", xl: "inline-block" }}>
-            I currently work full-time in IT, where I help build and maintain
-            systems that make everyday operations smoother and more efficient.
-            Whether I'm designing backend architecture, writing code, or solving
-            tough technical challenges, I find purpose in creating reliable,
-            smart solutions.
+        <GridItem>
+          <Text
+            fontSize="sm"
+            fontWeight="medium"
+            color={useColorModeValue("gray.500", "gray.400")}
+            letterSpacing="wider"
+            textTransform="uppercase"
+            mb={2}
+          >
+            Who I am
           </Text>
-          <Box display={{ base: "none", md: "block" }}>
-            <br />
-          </Box>
-          <Text as={"span"} display={{ base: "none", md: "inline-block" }}>
-            My journey is driven by a desire to keep learning and evolving —
-            because in tech, there's always something new to discover.
+
+          <Text
+            fontSize={titleSize}
+            fontWeight="bold"
+            lineHeight="1"
+            className="poppins"
+            color={useColorModeValue("#1A202C", "#F7F8FA")}
+            mb={6}
+          >
+            About
+            <Text
+              as="span"
+              color={useColorModeValue("blue.500", "blue.300")}
+              position="relative"
+              _after={{
+                content: '""',
+                position: "absolute",
+                bottom: "15%",
+                left: "-2%",
+                width: "104%",
+                height: "8px",
+                bg: useColorModeValue("blue.100", "blue.900"),
+                opacity: 0.3,
+                zIndex: -1,
+              }}
+            >
+              {" "}
+              Me
+            </Text>
           </Text>
-        </Text>
-      </Box>
 
-      <Flex
-        w="full"
-        justify="flex-end"
-        mt={4}
-        opacity={0.7}
-        transition="opacity 0.3s ease"
-        _hover={{ opacity: 1 }}
-        display={{ base: "none", md: "flex" }}
-      >
-        <Text
-          fontSize="xs"
-          letterSpacing="0.2em"
-          textTransform="uppercase"
-          color={useColorModeValue("gray.600", "gray.400")}
-          className="poppins-light"
+          <Box
+            bg={useColorModeValue("white", "gray.800")}
+            p={6}
+            borderRadius="xl"
+            boxShadow="lg"
+            position="relative"
+            _before={{
+              content: '""',
+              position: "absolute",
+              top: "0",
+              left: "0",
+              right: "0",
+              bottom: "0",
+              borderRadius: "xl",
+              border: "1px solid",
+              borderColor: useColorModeValue("gray.200", "gray.700"),
+              opacity: 0.5,
+            }}
+          >
+            <VStack spacing={4} align="stretch">
+              <Text
+                className="poppins-light"
+                fontSize={textSize}
+                color={useColorModeValue("gray.700", "gray.300")}
+                lineHeight="tall"
+              >
+                Hi, I'm Wilmarx — a passionate systems developer with a
+                deep-rooted love for technology that goes way back. From a young
+                age, I've always been fascinated by how things work behind the
+                scenes, and that curiosity naturally led me to the world of
+                development.
+              </Text>
+
+              {/* <Text
+                fontSize={textSize}
+                className="poppins-light"
+                color={useColorModeValue("gray.700", "gray.300")}
+                lineHeight="tall"
+                display={{ base: "none", "3xl": "inline-block" }}
+              >
+                I currently work full-time in IT, where I help build and maintain
+                systems that make everyday operations smoother and more efficient.
+                Whether I'm designing backend architecture, writing code, or solving
+                tough technical challenges, I find purpose in creating reliable,
+                smart solutions.
+              </Text> */}
+
+              <Text
+                className="poppins-light"
+                fontSize={textSize}
+                color={useColorModeValue("gray.700", "gray.300")}
+                lineHeight="tall"
+                display={{ base: "none", md: "inline-block" }}
+              >
+                My journey is driven by a desire to keep learning and evolving —
+                because in tech, there's always something new to discover.
+              </Text>
+            </VStack>
+          </Box>
+        </GridItem>
+
+        {/* Right column - Image with minimal design */}
+        <GridItem display={{ base: "none", md: "block" }} alignSelf="center" position="relative">
+          <Box
+            ref={imageRef}
+            position="relative"
+            padding="3"
+            cursor="pointer"
+            onMouseEnter={playSwingAnimation}
+            onClick={playSwingAnimation}
+            _before={{
+              content: '""',
+              position: "absolute",
+              inset: "0",
+              borderRadius: "2xl",
+              padding: "1px",
+              background: useColorModeValue(
+                "linear-gradient(135deg, #63B3ED44, #4299E122)",
+                "linear-gradient(135deg, #63B3ED22, #4299E111)"
+              ),
+              WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+              WebkitMaskComposite: "xor",
+              maskComposite: "exclude",
+            }}
+          >
+            <Image 
+              src={dev_avatar} 
+              alt="Wilmarx" 
+              width="100%"
+              height="auto"
+              maxH="500px"
+              objectFit="cover"
+              borderRadius="xl"
+              transition="all 0.3s ease"
+              _hover={{
+                transform: "translateY(-4px)",
+              }}
+            />
+          </Box>
+        </GridItem>
+      </Grid>
+
+      {/* Footer tag */}
+      <Flex justify="flex-end" mt={4}>
+        <Box
           position="relative"
-          _after={{
+          _before={{
             content: '""',
             position: "absolute",
-            bottom: "-2px",
-            left: "0",
-            width: "100%",
+            top: "50%",
+            right: "100%",
+            width: "30px",
             height: "1px",
-            bg: useColorModeValue("gray.600", "gray.400"),
-            opacity: 0.5,
+            bg: useColorModeValue("gray.300", "gray.600"),
+            marginRight: "10px",
           }}
         >
-          Passionate Developer
-        </Text>
-      </Flex>
-
-      {/* Mobile version of the tag */}
-      <Flex
-        w="full"
-        justify="center"
-        mt={2}
-        opacity={0.7}
-        transition="opacity 0.3s ease"
-        _hover={{ opacity: 1 }}
-        display={{ base: "flex", md: "none" }}
-      >
-        <Text
-          fontSize="xs"
-          letterSpacing="0.2em"
-          textTransform="uppercase"
-          color={useColorModeValue("gray.600", "gray.400")}
-          className="poppins-light"
-          position="relative"
-          _after={{
-            content: '""',
-            position: "absolute",
-            bottom: "-2px",
-            left: "0",
-            width: "100%",
-            height: "1px",
-            bg: useColorModeValue("gray.600", "gray.400"),
-            opacity: 0.5,
-          }}
-        >
-          Passionate Developer
-        </Text>
+          <Text
+            fontSize="xs"
+            letterSpacing="0.2em"
+            textTransform="uppercase"
+            color={useColorModeValue("gray.600", "gray.400")}
+            className="poppins-light"
+          >
+            Passionate Developer
+          </Text>
+        </Box>
       </Flex>
     </VStack>
   );
