@@ -21,6 +21,7 @@ const Layout = (Component) => {
     const cursorRef = useRef(null);
     const cursorDotRef = useRef(null);
     const [ripples] = useState([]);
+    const [isMounted, setIsMounted] = useState(false);
 
     const bgColor = useColorModeValue("#F7F8FA", "#060809");
     const textColor = colorMode === "light" ? "black" : "white";
@@ -55,25 +56,28 @@ const Layout = (Component) => {
     const backgroundImage = useColorModeValue(gradientLight, gradientDark);
 
     const waveSize = useBreakpointValue({
-      base: "min(150vw, 150vh)", // Larger on mobile
-      sm: "min(130vw, 130vh)", // Slightly smaller on small tablets
-      md: "min(140vw, 140vh)", // Increased size for desktop
-      lg: "min(130vw, 130vh)", // Slightly smaller for large screens
+      base: "min(150vw, 150vh)",
+      sm: "min(130vw, 130vh)",
+      md: "min(140vw, 140vh)",
+      lg: "min(130vw, 130vh)",
     });
     const waveScale = useBreakpointValue({
-      base: "1.5", // Larger scale on mobile
+      base: "1.5",
       sm: "1.4",
-      md: "1.35", // Slightly increased scale for desktop
+      md: "1.35",
       lg: "1.3",
     });
 
     // Initialize GSAP timeline
     useEffect(() => {
       layoutTimeline.current = gsap.timeline();
+      setIsMounted(true);
     }, []);
 
     // Initial mount animation
     useEffect(() => {
+      if (!isMounted) return;
+
       const tl = gsap.timeline();
 
       tl.from(containerRef.current, {
@@ -127,51 +131,57 @@ const Layout = (Component) => {
         yoyo: true,
         ease: "sine.inOut",
       });
-    }, []);
+
+      return () => {
+        tl.kill();
+      };
+    }, [isMounted]);
 
     // Theme change animation
     useEffect(() => {
-      if (layoutTimeline.current) {
-        layoutTimeline.current.clear();
+      if (!isMounted || !layoutTimeline.current) return;
 
-        layoutTimeline.current
-          .to(contentRef.current, {
-            y: -20,
-            opacity: 0,
-            duration: 0.4,
-            ease: "power2.in",
-          })
-          .to(containerRef.current, {
-            backgroundColor: bgColor,
-            color: textColor,
+      layoutTimeline.current.clear();
+
+      layoutTimeline.current
+        .to(contentRef.current, {
+          y: -20,
+          opacity: 0,
+          duration: 0.4,
+          ease: "power2.in",
+        })
+        .to(containerRef.current, {
+          backgroundColor: bgColor,
+          color: textColor,
+          duration: 0.6,
+          ease: "power2.inOut",
+        })
+        .to(
+          [waveRef1.current, waveRef2.current, waveRef3.current],
+          {
+            fill: [waveColor1, waveColor2, waveColor3],
             duration: 0.6,
+            stagger: 0.1,
             ease: "power2.inOut",
-          })
-          .to(
-            [waveRef1.current, waveRef2.current, waveRef3.current],
-            {
-              fill: [waveColor1, waveColor2, waveColor3],
-              duration: 0.6,
-              stagger: 0.1,
-              ease: "power2.inOut",
-            },
-            "-=0.6"
-          )
-          .to(
-            contentRef.current,
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.5,
-              ease: "power2.out",
-            },
-            "-=0.3"
-          );
-      }
-    }, [colorMode, bgColor, textColor, waveColor1, waveColor2, waveColor3]);
+          },
+          "-=0.6"
+        )
+        .to(
+          contentRef.current,
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.5,
+            ease: "power2.out",
+          },
+          "-=0.3"
+        );
+    }, [colorMode, bgColor, textColor, waveColor1, waveColor2, waveColor3, isMounted]);
 
     // Add mouse movement effect
     useEffect(() => {
+      if (!isMounted) return;
+
       let mouseX = 0;
       let mouseY = 0;
       let cursorX = 0;
@@ -218,11 +228,12 @@ const Layout = (Component) => {
       return () => {
         window.removeEventListener("mousemove", onMouseMove);
       };
-    }, []);
+    }, [isMounted]);
 
     // Add ripple effect
-
     useEffect(() => {
+      if (!isMounted) return;
+
       const handleClick = () => {
         // Ripple animation for waves
         const tl = gsap.timeline();
@@ -262,7 +273,7 @@ const Layout = (Component) => {
 
       window.addEventListener("click", handleClick);
       return () => window.removeEventListener("click", handleClick);
-    }, []);
+    }, [isMounted]);
 
     return (
       <Box
@@ -289,9 +300,9 @@ const Layout = (Component) => {
             pointerEvents: "none",
             zIndex: 0,
           },
-          cursor: "none", // Hide default cursor
+          cursor: "none",
           "& a, & button": {
-            cursor: "none", // Hide cursor on interactive elements
+            cursor: "none",
           },
         }}
       >
@@ -343,6 +354,7 @@ const Layout = (Component) => {
             transformOrigin: "center",
           }}
         />
+
         {/* Layered Wavy Circle Background */}
         <Box
           position="absolute"
@@ -461,12 +473,11 @@ const Layout = (Component) => {
 
         <Box ref={contentRef} position="relative" zIndex={1} height="100dvh">
           <Nav />
-          <Component {...props} />
+          {isMounted && <Component {...props} />}
         </Box>
 
         <ThemeChanger
           onThemeChange={(mode) => {
-            // Additional theme-specific animations can be added here
             gsap.to(containerRef.current, {
               background: mode === "light" ? gradientLight : gradientDark,
               duration: 0.6,
