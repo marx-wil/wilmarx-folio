@@ -9,10 +9,12 @@ const SocialLinksLg = () => {
           <Link
             key={link.name}
             className="poppins-light"
-            href="#"
+            href={link.link}
             fontSize="sm"
             display="flex"
             alignItems="center"
+            target="_blank"
+            rel="noopener noreferrer"
             gap={2}
           >
             <Icon as={link.icon} /> {link.name}
