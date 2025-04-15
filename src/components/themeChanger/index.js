@@ -4,7 +4,7 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { FaMoon, FaSun } from "react-icons/fa";
+import {SunIcon, MoonIcon} from "@chakra-ui/icons"
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
@@ -160,7 +160,7 @@ const ThemeChanger = ({ onThemeChange }) => {
         ref={buttonRef}
         icon={
           <Box ref={iconRef} style={{ display: "inline-block" }}>
-            {currentIcon === "moon" ? <FaMoon /> : <FaSun />}
+            {currentIcon === "moon" ? <MoonIcon /> : <SunIcon />}
           </Box>
         }
         aria-label="Toggle theme"
