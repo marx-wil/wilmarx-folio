@@ -104,29 +104,57 @@ const ImageOverlay = ({ isOpen, onClose, imageSrc }) => {
 const AboutContent = () => {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const [showImage, setShowImage] = useState(false);
+  const [countdown, setCountdown] = useState(5);
   const textSize = useBreakpointValue({ base: "sm", md: "md" });
   const spacing = useBreakpointValue({ base: 4, md: 8 });
   const imageRef = useRef(null);
   const textRef = useRef(null);
-  const flipIntervalRef = useRef(null);
+  const hideImageTimeoutRef = useRef(null);
+  const countdownIntervalRef = useRef(null);
 
   const handleToggleImage = () => {
-    setShowImage(!showImage);
+    setShowImage(true);
+    setCountdown(5);
+    
+    // Clear any existing timeout
+    if (hideImageTimeoutRef.current) {
+      clearTimeout(hideImageTimeoutRef.current);
+    }
+    
+    // Clear any existing countdown interval
+    if (countdownIntervalRef.current) {
+      clearInterval(countdownIntervalRef.current);
+    }
+    
+    // Set up countdown interval
+    countdownIntervalRef.current = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          clearInterval(countdownIntervalRef.current);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    
+    // Set a new timeout to hide the image after 5 seconds
+    hideImageTimeoutRef.current = setTimeout(() => {
+      setShowImage(false);
+    }, 5000);
   };
 
   const handleImageClick = () => {
     setIsOverlayOpen(true);
   };
 
-  // Set up automatic toggling every 5 seconds
+  // Clean up timeouts and intervals on component unmount
   useEffect(() => {
-    flipIntervalRef.current = setInterval(() => {
-      setShowImage((prev) => !prev);
-    }, 5000);
-
     return () => {
-      if (flipIntervalRef.current) {
-        clearInterval(flipIntervalRef.current);
+      if (hideImageTimeoutRef.current) {
+        clearTimeout(hideImageTimeoutRef.current);
+      }
+      if (countdownIntervalRef.current) {
+        clearInterval(countdownIntervalRef.current);
       }
     };
   }, []);
@@ -237,8 +265,6 @@ const AboutContent = () => {
             width="100%"
             minHeight={{ base: "250px", md: "350px" }}
             height="auto"
-            cursor="pointer"
-            onClick={handleToggleImage}
             overflow="hidden"
             mt={{ base: 4, md: 0 }}
           >
@@ -317,6 +343,8 @@ const AboutContent = () => {
                     overflow="hidden"
                     border="1px solid"
                     borderColor={useColorModeValue("gray.200", "gray.600")}
+                    cursor="pointer"
+                    onClick={handleToggleImage}
                   >
                     <Image
                       src={dev_avatar}
@@ -410,6 +438,26 @@ const AboutContent = () => {
                   borderRadius="xl"
                   transition="all 0.3s ease"
                 />
+                
+                {/* Countdown overlay */}
+                {showImage && (
+                  <Flex
+                    position="absolute"
+                    bottom="0"
+                    left="0"
+                    right="0"
+                    bg="rgba(0,0,0,0.6)"
+                    color="white"
+                    p={2}
+                    justifyContent="center"
+                    alignItems="center"
+                    borderBottomRadius="xl"
+                    fontSize="sm"
+                    fontWeight="medium"
+                  >
+                    <Text>Closing in {countdown} seconds</Text>
+                  </Flex>
+                )}
               </Box>
             </Box>
           </Box>
