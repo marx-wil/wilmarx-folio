@@ -297,14 +297,6 @@ const TextWithImage = ({
             }}
           >
             <VStack spacing={3} align="stretch">
-              <Text
-                className="poppins-medium"
-                fontSize={textSize}
-                lineHeight="tall"
-                color={textColor}
-              >
-                This is a heading
-              </Text>
               {textContent.map((text, index) => (
                 <Text
                   key={index}
