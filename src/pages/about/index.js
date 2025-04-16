@@ -8,16 +8,16 @@ const AboutContent = () => {
   const textContent = [
     {
       content:
-        "Hi, I'm Wilmarx — a passionate systems developer with a deep-rooted love for technology that goes way back. From a young age, I've always been fascinated by how things work behind the scenes, and that curiosity naturally led me to the world of development.",
+        "Hi, I'm Wilmarx — a systems developer and tech enthusiast with a lifelong curiosity for how things work beneath the surface. That fascination with the inner workings of technology led me into the world of IT and systems development, where I get to turn that passion into purposeful work.",
     },
     {
       content:
-        "I currently work full-time in IT, where I help build and maintain systems that make everyday operations smoother and more efficient. Whether I'm designing backend architecture, writing code, or solving tough technical challenges, I find purpose in creating reliable, smart solutions.",
+        "As an IT professional, I help design and maintain systems that keep operations running smoothly and securely. Whether configuring servers, managing backend logic, or troubleshooting issues, I enjoy building tools that are efficient, reliable, and impactful.",
       display: { base: "none", xl: "block" },
     },
     {
       content:
-        "My journey is driven by a desire to keep learning and evolving — because in tech, there's always something new to discover.",
+        "I'm also growing as a systems developer, diving into frontend and backend technologies to craft seamless digital experiences. I’m always eager to learn and adapt — because in tech, there’s always something new to explore and improve.",
       display: { base: "none", md: "block" },
     },
   ];
