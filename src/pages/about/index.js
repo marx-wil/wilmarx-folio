@@ -17,9 +17,39 @@ import gsap from "gsap";
 const ImageOverlay = ({ isOpen, onClose, imageSrc }) => {
   const overlayRef = useRef(null);
   const imageRef = useRef(null);
+  const [countdown, setCountdown] = useState(5);
+  const countdownIntervalRef = useRef(null);
+  const closeTimeoutRef = useRef(null);
 
   useEffect(() => {
     if (isOpen) {
+      // Reset countdown when overlay opens
+      setCountdown(5);
+      
+      // Clear any existing intervals/timeouts
+      if (countdownIntervalRef.current) {
+        clearInterval(countdownIntervalRef.current);
+      }
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+      
+      // Set up countdown interval
+      countdownIntervalRef.current = setInterval(() => {
+        setCountdown(prev => {
+          if (prev <= 1) {
+            clearInterval(countdownIntervalRef.current);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      
+      // Set timeout to close overlay
+      closeTimeoutRef.current = setTimeout(() => {
+        handleClose();
+      }, 5000);
+      
       // Animate overlay and image when opening
       gsap.to(overlayRef.current, {
         backgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -42,6 +72,16 @@ const ImageOverlay = ({ isOpen, onClose, imageSrc }) => {
         }
       );
     }
+    
+    return () => {
+      // Clean up intervals and timeouts
+      if (countdownIntervalRef.current) {
+        clearInterval(countdownIntervalRef.current);
+      }
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
   }, [isOpen]);
 
   const handleClose = () => {
@@ -86,6 +126,7 @@ const ImageOverlay = ({ isOpen, onClose, imageSrc }) => {
         borderRadius="xl"
         display="flex"
         alignItems="center"
+        position="relative"
       >
         <Image
           src={imageSrc}
@@ -96,6 +137,25 @@ const ImageOverlay = ({ isOpen, onClose, imageSrc }) => {
           w="auto"
           h="auto"
         />
+        
+        {/* Countdown overlay */}
+        <Flex
+          position="absolute"
+          bottom="0"
+          left="0"
+          right="0"
+          bg="rgba(0,0,0,0.6)"
+          color="white"
+          p={3}
+          justifyContent="center"
+          alignItems="center"
+          borderBottomRadius="xl"
+          fontSize="md"
+          fontWeight="medium"
+          className="poppins"
+        >
+          <Text>Closing in {countdown} seconds</Text>
+        </Flex>
       </Box>
     </Box>
   );
@@ -454,6 +514,7 @@ const AboutContent = () => {
                     borderBottomRadius="xl"
                     fontSize="sm"
                     fontWeight="medium"
+                    className="poppins"
                   >
                     <Text>Closing in {countdown} seconds</Text>
                   </Flex>
