@@ -28,10 +28,10 @@ const ImageOverlay = ({ isOpen, onClose, imageSrc }) => {
       });
       gsap.fromTo(
         imageRef.current,
-        { 
+        {
           scale: 0.5,
           opacity: 0,
-          y: 50
+          y: 50,
         },
         {
           scale: 1,
@@ -108,33 +108,34 @@ const Callout = () => {
   useEffect(() => {
     if (window.innerWidth >= 768) return; // Only show on mobile
 
-    timeline.current = gsap.timeline({ repeat: -1 })
-      .set(calloutRef.current, { 
-        display: 'block',
+    timeline.current = gsap
+      .timeline({ repeat: -1 })
+      .set(calloutRef.current, {
+        display: "block",
         opacity: 0,
         scale: 0.5,
-        y: 20
+        y: 20,
       })
       .to(calloutRef.current, {
         opacity: 1,
         scale: 1,
         y: 0,
         duration: 0.5,
-        ease: "back.out(1.7)"
+        ease: "back.out(1.7)",
       })
       .to(calloutRef.current, {
         opacity: 1,
-        duration: 2
+        duration: 2,
       })
       .to(calloutRef.current, {
         opacity: 0,
         scale: 0.8,
         y: -10,
         duration: 0.3,
-        ease: "power2.in"
+        ease: "power2.in",
       })
-      .set(calloutRef.current, { 
-        display: 'none'
+      .set(calloutRef.current, {
+        display: "none",
       })
       .to({}, { duration: 4 }); // Wait 4 seconds before next animation
 
@@ -169,7 +170,10 @@ const Callout = () => {
         transform: "translateX(-50%)",
         borderLeft: "6px solid transparent",
         borderRight: "6px solid transparent",
-        borderTop: `6px solid ${useColorModeValue("var(--chakra-colors-blue-500)", "var(--chakra-colors-blue-300)")}`
+        borderTop: `6px solid ${useColorModeValue(
+          "var(--chakra-colors-blue-500)",
+          "var(--chakra-colors-blue-300)"
+        )}`,
       }}
     >
       Click me!
@@ -186,16 +190,17 @@ const AboutContent = () => {
 
   const playSwingAnimation = () => {
     const imageContainer = imageRef.current;
-    gsap.fromTo(imageContainer,
-      { 
+    gsap.fromTo(
+      imageContainer,
+      {
         rotation: 2,
-        transformOrigin: "top center" 
+        transformOrigin: "top center",
       },
       {
         rotation: 0,
         duration: 2,
         ease: "elastic.out(1, 0.3)",
-        transformOrigin: "top center"
+        transformOrigin: "top center",
       }
     );
   };
@@ -230,7 +235,6 @@ const AboutContent = () => {
             color={useColorModeValue("gray.500", "gray.400")}
             letterSpacing="wider"
             textTransform="uppercase"
-            mb={2}
           >
             Who I am
           </Text>
@@ -241,7 +245,7 @@ const AboutContent = () => {
             lineHeight="1"
             className="poppins"
             color={useColorModeValue("#1A202C", "#F7F8FA")}
-            mb={6}
+            mb={{base: 0, md: 2, lg: 4}}
           >
             About
             <Text
@@ -326,7 +330,6 @@ const AboutContent = () => {
                 fontSize={textSize}
                 color={useColorModeValue("gray.700", "gray.300")}
                 lineHeight="tall"
-                display={{ base: "none", md: "inline-block" }}
               >
                 My journey is driven by a desire to keep learning and evolving —
                 because in tech, there's always something new to discover.
@@ -335,7 +338,11 @@ const AboutContent = () => {
           </Box>
         </GridItem>
 
-        <GridItem display={{ base: "none", md: "block" }} alignSelf="center" position="relative">
+        <GridItem
+          display={{ base: "none", md: "block" }}
+          alignSelf="center"
+          position="relative"
+        >
           <Box
             ref={imageRef}
             position="relative"
@@ -353,17 +360,18 @@ const AboutContent = () => {
                 "linear-gradient(135deg, #63B3ED44, #4299E122)",
                 "linear-gradient(135deg, #63B3ED22, #4299E111)"
               ),
-              WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+              WebkitMask:
+                "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
               WebkitMaskComposite: "xor",
               maskComposite: "exclude",
             }}
           >
-            <Image 
-              src={dev_avatar} 
-              alt="Wilmarx" 
+            <Image
+              src={dev_avatar}
+              alt="Wilmarx"
               width="100%"
               height="auto"
-              maxH="500px"
+              maxH="350px"
               objectFit="cover"
               objectPosition="center"
               borderRadius="xl"

@@ -112,7 +112,7 @@ const HeroSection = (WrappedComponent) => {
         {/* Vertical line */}
         <Box
           position="absolute"
-          left="10vw"
+          left={{ base: "10vw", md: "5vw", xl: "10vw" }}
           top="0"
           bottom="0"
           width="1px"
