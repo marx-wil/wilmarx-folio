@@ -28,10 +28,10 @@ const ImageOverlay = ({ isOpen, onClose, imageSrc }) => {
       });
       gsap.fromTo(
         imageRef.current,
-        { 
+        {
           scale: 0.5,
           opacity: 0,
-          y: 50
+          y: 50,
         },
         {
           scale: 1,
@@ -101,112 +101,74 @@ const ImageOverlay = ({ isOpen, onClose, imageSrc }) => {
   );
 };
 
-const Callout = () => {
-  const calloutRef = useRef(null);
-  const timeline = useRef(null);
-
-  useEffect(() => {
-    if (window.innerWidth >= 768) return; // Only show on mobile
-
-    timeline.current = gsap.timeline({ repeat: -1 })
-      .set(calloutRef.current, { 
-        display: 'block',
-        opacity: 0,
-        scale: 0.5,
-        y: 20
-      })
-      .to(calloutRef.current, {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 0.5,
-        ease: "back.out(1.7)"
-      })
-      .to(calloutRef.current, {
-        opacity: 1,
-        duration: 2
-      })
-      .to(calloutRef.current, {
-        opacity: 0,
-        scale: 0.8,
-        y: -10,
-        duration: 0.3,
-        ease: "power2.in"
-      })
-      .set(calloutRef.current, { 
-        display: 'none'
-      })
-      .to({}, { duration: 4 }); // Wait 4 seconds before next animation
-
-    return () => {
-      if (timeline.current) {
-        timeline.current.kill();
-      }
-    };
-  }, []);
-
-  return (
-    <Box
-      ref={calloutRef}
-      position="absolute"
-      top="-40px"
-      left="50%"
-      transform="translateX(-50%)"
-      bg={useColorModeValue("blue.500", "blue.300")}
-      color="white"
-      px={3}
-      py={2}
-      borderRadius="lg"
-      fontSize="sm"
-      fontWeight="medium"
-      display="none"
-      boxShadow="lg"
-      _before={{
-        content: '""',
-        position: "absolute",
-        bottom: "-6px",
-        left: "50%",
-        transform: "translateX(-50%)",
-        borderLeft: "6px solid transparent",
-        borderRight: "6px solid transparent",
-        borderTop: `6px solid ${useColorModeValue("var(--chakra-colors-blue-500)", "var(--chakra-colors-blue-300)")}`
-      }}
-    >
-      Click me!
-    </Box>
-  );
-};
-
 const AboutContent = () => {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
-  const titleSize = useBreakpointValue({ base: "4xl", md: "4xl", lg: "6xl" });
+  const [showImage, setShowImage] = useState(false);
   const textSize = useBreakpointValue({ base: "sm", md: "md" });
-  const spacing = useBreakpointValue({ base: 6, md: 8 });
+  const spacing = useBreakpointValue({ base: 4, md: 8 });
   const imageRef = useRef(null);
+  const textRef = useRef(null);
+  const flipIntervalRef = useRef(null);
 
-  const playSwingAnimation = () => {
-    const imageContainer = imageRef.current;
-    gsap.fromTo(imageContainer,
-      { 
-        rotation: 2,
-        transformOrigin: "top center" 
-      },
-      {
-        rotation: 0,
-        duration: 2,
-        ease: "elastic.out(1, 0.3)",
-        transformOrigin: "top center"
-      }
-    );
+  const handleToggleImage = () => {
+    setShowImage(!showImage);
   };
 
   const handleImageClick = () => {
     setIsOverlayOpen(true);
   };
 
+  // Set up automatic toggling every 5 seconds
   useEffect(() => {
-    playSwingAnimation();
+    flipIntervalRef.current = setInterval(() => {
+      setShowImage((prev) => !prev);
+    }, 5000);
+
+    return () => {
+      if (flipIntervalRef.current) {
+        clearInterval(flipIntervalRef.current);
+      }
+    };
   }, []);
+
+  // Animate the image sliding up/down when showImage changes
+  useEffect(() => {
+    if (imageRef.current && textRef.current) {
+      if (showImage) {
+        // Slide image up to overlay text
+        gsap.to(imageRef.current, {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.inOut",
+          zIndex: 2,
+        });
+
+        // Fade out text slightly
+        gsap.to(textRef.current, {
+          opacity: 0.3,
+          duration: 0.5,
+          ease: "power2.inOut",
+        });
+      } else {
+        // Slide image back down
+        gsap.to(imageRef.current, {
+          y: "100%",
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.inOut",
+          zIndex: 1,
+        });
+
+        // Fade in text
+        gsap.to(textRef.current, {
+          opacity: 1,
+          duration: 0.5,
+          ease: "power2.inOut",
+        });
+      }
+    }
+  }, [showImage]);
 
   return (
     <VStack
@@ -219,159 +181,237 @@ const AboutContent = () => {
     >
       <Grid
         templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
-        gap={24}
+        gap={{ base: 6, md: 12 }}
         w="full"
         alignItems="center"
       >
         <GridItem>
-          <Text
-            fontSize="sm"
-            fontWeight="medium"
-            color={useColorModeValue("gray.500", "gray.400")}
-            letterSpacing="wider"
-            textTransform="uppercase"
-            mb={2}
-          >
-            Who I am
-          </Text>
-
-          <Text
-            fontSize={titleSize}
-            fontWeight="bold"
-            lineHeight="1"
-            className="poppins"
-            color={useColorModeValue("#1A202C", "#F7F8FA")}
-            mb={6}
-          >
-            About
+          <VStack align="flex-start" spacing={4}>
             <Text
-              as="span"
-              color={useColorModeValue("blue.500", "blue.300")}
-              position="relative"
-              cursor={{ base: "pointer", md: "default" }}
-              onClick={() => {
-                if (window.innerWidth < 768) {
-                  setIsOverlayOpen(true);
-                }
-              }}
-              _after={{
-                content: '""',
-                position: "absolute",
-                bottom: "15%",
-                left: "-2%",
-                width: "104%",
-                height: "8px",
-                bg: useColorModeValue("blue.100", "blue.900"),
-                opacity: 0.3,
-                zIndex: -1,
-              }}
+              mb={0}
+              fontSize={{ base: "2xl", md: "3xl", lg: "3xl" }}
+              fontWeight="bold"
+              letterSpacing="0.1rem"
+              lineHeight="1"
+              className="poppins"
+              color={useColorModeValue("#757575", "#A0A0A0")}
+              textTransform="uppercase"
             >
-              {" "}
-              Me
-              <Box display={{ base: "block", md: "none" }}>
-                <Callout />
-              </Box>
+              About
             </Text>
-          </Text>
-
-          <Box
-            bg={useColorModeValue("white", "gray.800")}
-            p={6}
-            borderRadius="xl"
-            boxShadow="lg"
-            position="relative"
-            _before={{
-              content: '""',
-              position: "absolute",
-              top: "0",
-              left: "0",
-              right: "0",
-              bottom: "0",
-              borderRadius: "xl",
-              border: "1px solid",
-              borderColor: useColorModeValue("gray.200", "gray.700"),
-              opacity: 0.5,
-            }}
-          >
-            <VStack spacing={4} align="stretch">
+            <Text
+              fontSize={{ base: "5xl", md: "7xl", lg: "8xl" }}
+              fontWeight="bold"
+              letterSpacing="tight"
+              lineHeight="1"
+              className="poppins"
+              color={useColorModeValue("#4f4f4f", "#F7F8FA")}
+              textTransform="uppercase"
+            >
+              I am,&nbsp;
               <Text
-                className="poppins-light"
-                fontSize={textSize}
-                color={useColorModeValue("gray.700", "gray.300")}
-                lineHeight="tall"
+                as="span"
+                position="relative"
+                color={useColorModeValue("blue.500", "blue.300")}
+                _after={{
+                  content: '""',
+                  position: "absolute",
+                  bottom: "10%",
+                  left: "-2%",
+                  width: "104%",
+                  height: "8px",
+                  bg: useColorModeValue("blue.100", "blue.900"),
+                  opacity: 0.3,
+                  zIndex: -1,
+                }}
               >
-                Hi, I'm Wilmarx — a passionate systems developer with a
-                deep-rooted love for technology that goes way back. From a young
-                age, I've always been fascinated by how things work behind the
-                scenes, and that curiosity naturally led me to the world of
-                development.
+                Me
               </Text>
-
-              {/* <Text
-                fontSize={textSize}
-                className="poppins-light"
-                color={useColorModeValue("gray.700", "gray.300")}
-                lineHeight="tall"
-                display={{ base: "none", "3xl": "inline-block" }}
-              >
-                I currently work full-time in IT, where I help build and maintain
-                systems that make everyday operations smoother and more efficient.
-                Whether I'm designing backend architecture, writing code, or solving
-                tough technical challenges, I find purpose in creating reliable,
-                smart solutions.
-              </Text> */}
-
-              <Text
-                className="poppins-light"
-                fontSize={textSize}
-                color={useColorModeValue("gray.700", "gray.300")}
-                lineHeight="tall"
-                display={{ base: "none", md: "inline-block" }}
-              >
-                My journey is driven by a desire to keep learning and evolving —
-                because in tech, there's always something new to discover.
-              </Text>
-            </VStack>
-          </Box>
+            </Text>
+          </VStack>
         </GridItem>
 
-        <GridItem display={{ base: "none", md: "block" }} alignSelf="center" position="relative">
+        <GridItem alignSelf="center" position="relative">
           <Box
-            ref={imageRef}
             position="relative"
-            padding="3"
+            width="100%"
+            minHeight={{ base: "250px", md: "350px" }}
+            height="auto"
             cursor="pointer"
-            onMouseEnter={playSwingAnimation}
-            onClick={handleImageClick}
-            _before={{
-              content: '""',
-              position: "absolute",
-              inset: "0",
-              borderRadius: "2xl",
-              padding: "1px",
-              background: useColorModeValue(
-                "linear-gradient(135deg, #63B3ED44, #4299E122)",
-                "linear-gradient(135deg, #63B3ED22, #4299E111)"
-              ),
-              WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-              WebkitMaskComposite: "xor",
-              maskComposite: "exclude",
-            }}
+            onClick={handleToggleImage}
+            overflow="hidden"
+            mt={{ base: 4, md: 0 }}
           >
-            <Image 
-              src={dev_avatar} 
-              alt="Wilmarx" 
+            {/* Text content */}
+            <Box
+              ref={textRef}
+              position="relative"
               width="100%"
               height="auto"
-              maxH="500px"
-              objectFit="cover"
-              objectPosition="center"
-              borderRadius="xl"
-              transition="all 0.3s ease"
-              _hover={{
-                transform: "translateY(-4px)",
+              zIndex={1}
+            >
+              <Box
+                bg={useColorModeValue("white", "gray.800")}
+                p={{ base: 4, md: 6 }}
+                borderRadius="xl"
+                boxShadow="lg"
+                position="relative"
+                _before={{
+                  content: '""',
+                  position: "absolute",
+                  top: "0",
+                  left: "0",
+                  right: "0",
+                  bottom: "0",
+                  borderRadius: "xl",
+                  border: "1px solid",
+                  borderColor: useColorModeValue("gray.200", "gray.700"),
+                  opacity: 0.5,
+                }}
+              >
+                <VStack spacing={3} align="stretch">
+                  <Text
+                    className="poppins-light"
+                    fontSize={textSize}
+                    color={useColorModeValue("gray.700", "gray.300")}
+                    lineHeight="tall"
+                  >
+                    Hi, I'm Wilmarx — a passionate systems developer with a
+                    deep-rooted love for technology that goes way back. From a
+                    young age, I've always been fascinated by how things work
+                    behind the scenes, and that curiosity naturally led me to
+                    the world of development.
+                  </Text>
+
+                  <Text
+                    className="poppins-light"
+                    fontSize={textSize}
+                    color={useColorModeValue("gray.700", "gray.300")}
+                    display={{ base: "none", xl: "block" }}
+                    lineHeight="tall"
+                  >
+                    I currently work full-time in IT, where I help build and
+                    maintain systems that make everyday operations smoother and
+                    more efficient. Whether I'm designing backend architecture,
+                    writing code, or solving tough technical challenges, I find
+                    purpose in creating reliable, smart solutions.
+                  </Text>
+                  <Text
+                    className="poppins-light"
+                    fontSize={textSize}
+                    color={useColorModeValue("gray.700", "gray.300")}
+                    display={{ base: "none", md: "block" }}
+                    lineHeight="tall"
+                  >
+                    My journey is driven by a desire to keep learning and
+                    evolving — because in tech, there's always something new to
+                    discover.
+                  </Text>
+
+                  {/* Photo preview with arrow */}
+                  <Box
+                    position="relative"
+                    mt={2}
+                    height="60px"
+                    borderRadius="md"
+                    overflow="hidden"
+                    border="1px solid"
+                    borderColor={useColorModeValue("gray.200", "gray.600")}
+                  >
+                    <Image
+                      src={dev_avatar}
+                      alt="Preview"
+                      width="100%"
+                      height="100%"
+                      objectFit="cover"
+                      objectPosition="center"
+                    />
+                    <Flex
+                      position="absolute"
+                      top="0"
+                      left="0"
+                      right="0"
+                      bottom="0"
+                      bg="rgba(0,0,0,0.3)"
+                      alignItems="center"
+                      justifyContent="center"
+                      opacity={0.7}
+                      _hover={{ opacity: 1 }}
+                      transition="opacity 0.2s"
+                    >
+                      <Text
+                        color="white"
+                        fontWeight="medium"
+                        fontSize="sm"
+                        display="flex"
+                        alignItems="center"
+                      >
+                        Click to see photo
+                        <Box
+                          as="span"
+                          ml={1}
+                          transform="translateY(-2px)"
+                          fontSize="lg"
+                        >
+                          ↑
+                        </Box>
+                      </Text>
+                    </Flex>
+                  </Box>
+                </VStack>
+              </Box>
+            </Box>
+
+            {/* Image that slides up */}
+            <Box
+              ref={imageRef}
+              position="absolute"
+              width="100%"
+              height="100%"
+              top="0"
+              left="0"
+              y="100%"
+              opacity={0}
+              zIndex={1}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleImageClick();
               }}
-            />
+            >
+              <Box
+                position="relative"
+                padding={{ base: 2, md: 3 }}
+                width="100%"
+                height="100%"
+                _before={{
+                  content: '""',
+                  position: "absolute",
+                  inset: "0",
+                  borderRadius: "2xl",
+                  padding: "1px",
+                  background: useColorModeValue(
+                    "linear-gradient(135deg, #63B3ED44, #4299E122)",
+                    "linear-gradient(135deg, #63B3ED22, #4299E111)"
+                  ),
+                  WebkitMask:
+                    "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                  WebkitMaskComposite: "xor",
+                  maskComposite: "exclude",
+                }}
+              >
+                <Image
+                  src={dev_avatar}
+                  alt="Wilmarx"
+                  width="100%"
+                  height="auto"
+                  maxH={{ base: "300px", md: "500px" }}
+                  objectFit="cover"
+                  objectPosition="center"
+                  borderRadius="xl"
+                  transition="all 0.3s ease"
+                />
+              </Box>
+            </Box>
           </Box>
         </GridItem>
       </Grid>
