@@ -72,6 +72,7 @@ const ImageOverlay = ({ isOpen, onClose, imageSrc }) => {
         clearTimeout(closeTimeoutRef.current);
       }
     };
+    // eslint-disable-next-line
   }, [isOpen]);
 
   const handleClose = () => {
