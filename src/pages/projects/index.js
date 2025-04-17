@@ -1,7 +1,6 @@
 import { VStack, Grid, GridItem } from "@chakra-ui/react";
 import HeroSection from "../../components/heroSection";
 import TextWithImage from "../../components/TextWithImage";
-import dev_avatar from "../../assets/me/myphoto.jpg";
 import HeroHeader from "../../components/HeroHeader";
 import DentalManagementSystem from "../../assets/projects/dems.jpg";
 const ProjectsContent = () => {
