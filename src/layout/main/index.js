@@ -23,36 +23,17 @@ const Layout = (Component) => {
     const [ripples] = useState([]);
     const [isMounted, setIsMounted] = useState(false);
 
-    const bgColor = useColorModeValue("#F7F8FA", "#060809");
-    const textColor = colorMode === "light" ? "black" : "white";
-    const cursorColor = useColorModeValue(
-      "rgba(79, 79, 79, 0.3)",
-      "rgba(247, 248, 250, 0.3)"
-    );
-    const cursorDotColor = useColorModeValue(
-      "rgba(79, 79, 79, 0.8)",
-      "rgba(247, 248, 250, 0.8)"
-    );
-    const rippleColor = useColorModeValue(
-      "rgba(79, 79, 79, 0.15)",
-      "rgba(247, 248, 250, 0.15)"
-    );
-    const waveColor1 = useColorModeValue(
-      "rgba(79, 79, 79, 0.045)",
-      "rgba(247, 248, 250, 0.015)"
-    );
-    const waveColor2 = useColorModeValue(
-      "rgba(79, 79, 79, 0.035)",
-      "rgba(247, 248, 250, 0.012)"
-    );
-    const waveColor3 = useColorModeValue(
-      "rgba(79, 79, 79, 0.025)",
-      "rgba(247, 248, 250, 0.009)"
-    );
-    const gradientLight =
-      "radial-gradient(circle at 50% 50%, rgba(79, 79, 79, 0.02), rgba(79, 79, 79, 0) 100%)";
-    const gradientDark =
-      "radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.008), rgba(255, 255, 255, 0) 100%)";
+    // Enhanced color tokens for better consistency
+    const bgColor = useColorModeValue("gray.50", "gray.900");
+    const textColor = colorMode === "light" ? "gray.800" : "gray.100";
+    const cursorColor = useColorModeValue("rgba(79, 79, 79, 0.2)", "rgba(247, 248, 250, 0.2)");
+    const cursorDotColor = useColorModeValue("rgba(79, 79, 79, 0.6)", "rgba(247, 248, 250, 0.6)");
+    const rippleColor = useColorModeValue("rgba(79, 79, 79, 0.1)", "rgba(247, 248, 250, 0.1)");
+    const waveColor1 = useColorModeValue("rgba(79, 79, 79, 0.03)", "rgba(247, 248, 250, 0.01)");
+    const waveColor2 = useColorModeValue("rgba(79, 79, 79, 0.025)", "rgba(247, 248, 250, 0.008)");
+    const waveColor3 = useColorModeValue("rgba(79, 79, 79, 0.015)", "rgba(247, 248, 250, 0.005)");
+    const gradientLight = "radial-gradient(circle at 50% 50%, rgba(79, 79, 79, 0.015), rgba(79, 79, 79, 0) 100%)";
+    const gradientDark = "radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.005), rgba(255, 255, 255, 0) 100%)";
     const backgroundImage = useColorModeValue(gradientLight, gradientDark);
 
     const waveSize = useBreakpointValue({
@@ -74,7 +55,7 @@ const Layout = (Component) => {
       setIsMounted(true);
     }, []);
 
-    // Initial mount animation
+    // Enhanced initial mount animation
     useEffect(() => {
       if (!isMounted) return;
 
@@ -82,54 +63,62 @@ const Layout = (Component) => {
 
       tl.from(containerRef.current, {
         opacity: 0,
-        duration: 0.8,
+        duration: 1,
         ease: "power2.inOut",
       })
         .from(
           contentRef.current,
           {
-            y: 30,
+            y: 40,
             opacity: 0,
-            duration: 0.6,
+            duration: 0.8,
             ease: "power3.out",
           },
-          "-=0.4"
+          "-=0.6"
         )
         .from(
           [waveRef1.current, waveRef2.current, waveRef3.current],
           {
-            scale: 0.8,
+            scale: 0.6,
             opacity: 0,
-            duration: 1,
-            stagger: 0.2,
+            duration: 1.2,
+            stagger: 0.3,
             ease: "power3.out",
           },
-          "-=0.6"
+          "-=0.8"
         );
 
-      // Add subtle wave animations with different timings
+      // Enhanced wave animations with different timings and easing
       gsap.to(waveRef1.current, {
-        y: "+=15",
-        duration: 10,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(waveRef2.current, {
-        y: "+=25",
+        y: "+=20",
         duration: 12,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
       });
 
-      gsap.to(waveRef3.current, {
-        y: "+=35",
-        duration: 14,
+      gsap.to(waveRef2.current, {
+        y: "+=30",
+        duration: 15,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
+      });
+
+      gsap.to(waveRef3.current, {
+        y: "+=40",
+        duration: 18,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+      });
+
+      // Add subtle rotation to waves
+      gsap.to([waveRef1.current, waveRef2.current, waveRef3.current], {
+        rotation: "+=1",
+        duration: 20,
+        repeat: -1,
+        ease: "none",
       });
 
       return () => {
@@ -137,7 +126,7 @@ const Layout = (Component) => {
       };
     }, [isMounted]);
 
-    // Theme change animation
+    // Enhanced theme change animation
     useEffect(() => {
       if (!isMounted || !layoutTimeline.current) return;
 
@@ -145,40 +134,40 @@ const Layout = (Component) => {
 
       layoutTimeline.current
         .to(contentRef.current, {
-          y: -20,
+          y: -30,
           opacity: 0,
-          duration: 0.4,
+          duration: 0.5,
           ease: "power2.in",
         })
         .to(containerRef.current, {
           backgroundColor: bgColor,
           color: textColor,
-          duration: 0.6,
+          duration: 0.8,
           ease: "power2.inOut",
         })
         .to(
           [waveRef1.current, waveRef2.current, waveRef3.current],
           {
             fill: [waveColor1, waveColor2, waveColor3],
-            duration: 0.6,
-            stagger: 0.1,
+            duration: 0.8,
+            stagger: 0.15,
             ease: "power2.inOut",
           },
-          "-=0.6"
+          "-=0.8"
         )
         .to(
           contentRef.current,
           {
             y: 0,
             opacity: 1,
-            duration: 0.5,
+            duration: 0.6,
             ease: "power2.out",
           },
-          "-=0.3"
+          "-=0.4"
         );
     }, [colorMode, bgColor, textColor, waveColor1, waveColor2, waveColor3, isMounted]);
 
-    // Add mouse movement effect
+    // Enhanced mouse movement effect
     useEffect(() => {
       if (!isMounted) return;
 
@@ -195,13 +184,13 @@ const Layout = (Component) => {
       };
 
       const updateCursor = () => {
-        // Smooth lerp for main cursor
-        cursorX += (mouseX - cursorX) * 0.15;
-        cursorY += (mouseY - cursorY) * 0.15;
+        // Smoother lerp for main cursor
+        cursorX += (mouseX - cursorX) * 0.12;
+        cursorY += (mouseY - cursorY) * 0.12;
 
         // Faster lerp for dot cursor
-        dotX += (mouseX - dotX) * 0.35;
-        dotY += (mouseY - dotY) * 0.35;
+        dotX += (mouseX - dotX) * 0.3;
+        dotY += (mouseY - dotY) * 0.3;
 
         if (cursorRef.current && cursorDotRef.current) {
           gsap.set(cursorRef.current, {
@@ -230,40 +219,40 @@ const Layout = (Component) => {
       };
     }, [isMounted]);
 
-    // Add ripple effect
+    // Enhanced ripple effect
     useEffect(() => {
       if (!isMounted) return;
 
       const handleClick = () => {
-        // Ripple animation for waves
+        // Enhanced ripple animation for waves
         const tl = gsap.timeline();
 
         // Animate each wave with a staggered ripple effect
         tl.to([waveRef1.current, waveRef2.current, waveRef3.current], {
-          scale: "+=0.05",
-          duration: 0.4,
+          scale: "+=0.08",
+          duration: 0.5,
           ease: "power2.out",
-          stagger: 0.1,
+          stagger: 0.15,
         }).to([waveRef1.current, waveRef2.current, waveRef3.current], {
-          scale: "-=0.05",
-          duration: 1,
+          scale: "-=0.08",
+          duration: 1.2,
           ease: "elastic.out(1, 0.3)",
-          stagger: 0.1,
+          stagger: 0.15,
         });
 
-        // Animate cursor on click
+        // Enhanced cursor animation on click
         if (cursorRef.current && cursorDotRef.current) {
           gsap.to(cursorRef.current, {
-            scale: 0.85,
-            duration: 0.15,
+            scale: 0.8,
+            duration: 0.2,
             ease: "power2.out",
             yoyo: true,
             repeat: 1,
           });
 
           gsap.to(cursorDotRef.current, {
-            scale: 0.5,
-            duration: 0.15,
+            scale: 0.4,
+            duration: 0.2,
             ease: "power2.out",
             yoyo: true,
             repeat: 1,
@@ -326,36 +315,38 @@ const Layout = (Component) => {
           />
         ))}
 
-        {/* Custom Cursor */}
+        {/* Enhanced Custom Cursor */}
         <Box
           ref={cursorRef}
           position="fixed"
-          width="40px"
-          height="40px"
+          width="44px"
+          height="44px"
           borderRadius="full"
-          border="1px solid"
+          border="2px solid"
           borderColor={cursorColor}
           pointerEvents="none"
           zIndex={9999}
           style={{
             transformOrigin: "center",
+            backdropFilter: "blur(4px)",
           }}
         />
         <Box
           ref={cursorDotRef}
           position="fixed"
-          width="8px"
-          height="8px"
+          width="10px"
+          height="10px"
           borderRadius="full"
           bg={cursorDotColor}
           pointerEvents="none"
           zIndex={9999}
           style={{
             transformOrigin: "center",
+            backdropFilter: "blur(2px)",
           }}
         />
 
-        {/* Layered Wavy Circle Background */}
+        {/* Enhanced Layered Wavy Circle Background */}
         <Box
           position="absolute"
           top="50%"
@@ -392,7 +383,7 @@ const Layout = (Component) => {
             >
               <animate
                 attributeName="d"
-                dur="20s"
+                dur="25s"
                 repeatCount="indefinite"
                 values="
                   M500,150 C677,150 850,323 850,500 C850,677 677,850 500,850 C323,850 150,677 150,500 C150,323 323,150 500,150 Z;
@@ -426,7 +417,7 @@ const Layout = (Component) => {
             >
               <animate
                 attributeName="d"
-                dur="18s"
+                dur="22s"
                 repeatCount="indefinite"
                 values="
                   M500,200 C650,200 800,350 800,500 C800,650 650,800 500,800 C350,800 200,650 200,500 C200,350 350,200 500,200 Z;
@@ -460,7 +451,7 @@ const Layout = (Component) => {
             >
               <animate
                 attributeName="d"
-                dur="15s"
+                dur="19s"
                 repeatCount="indefinite"
                 values="
                   M500,250 C625,250 750,375 750,500 C750,625 625,750 500,750 C375,750 250,625 250,500 C250,375 375,250 500,250 Z;
@@ -471,7 +462,7 @@ const Layout = (Component) => {
           </svg>
         </Box>
 
-        <Box ref={contentRef} position="relative" zIndex={1} height="100dvh">
+        <Box ref={contentRef} position="relative" zIndex={1} height="100dvh" overflow="hidden">
           <Nav />
           {isMounted && <Component {...props} />}
         </Box>
@@ -480,7 +471,7 @@ const Layout = (Component) => {
           onThemeChange={(mode) => {
             gsap.to(containerRef.current, {
               background: mode === "light" ? gradientLight : gradientDark,
-              duration: 0.6,
+              duration: 0.8,
               ease: "power2.inOut",
             });
           }}
