@@ -27,7 +27,6 @@ import { useState } from "react";
 import GSAPModal from "../../components/gsapModal";
 import HeroHeader from "../../components/HeroHeader";
 
-// Create a content component for the middle section
 const ContactContent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [activeModal, setActiveModal] = useState(null);
@@ -40,11 +39,9 @@ const ContactContent = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
 
-  // Enhanced color tokens for better consistency
   const textColor = useColorModeValue("gray.600", "gray.400");
   const accentColor = useColorModeValue("blue.500", "blue.400");
   const borderColor = useColorModeValue("gray.200", "gray.700");
-  const hoverBg = useColorModeValue("blue.50", "blue.900");
   const cardBg = useColorModeValue("white", "gray.800");
   const headingColor = useColorModeValue("gray.800", "gray.200");
 
@@ -60,7 +57,6 @@ const ContactContent = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
       toast({
@@ -71,11 +67,10 @@ const ContactContent = () => {
         isClosable: true,
       });
       setFormData({ name: "", email: "", subject: "", message: "" });
-      onClose(); // Close modal after successful submission
+      onClose();
     }, 2000);
   };
 
-  // Interactive contact widgets data
   const contactWidgets = [
     {
       id: "contact-form",
@@ -376,7 +371,6 @@ const ContactContent = () => {
       w="full"
       pb={8}
     >
-      {/* Header Section */}
       <VStack align="flex-start" spacing={4}>
         <HeroHeader
           title="GET IN TOUCH"
@@ -385,7 +379,6 @@ const ContactContent = () => {
         />
       </VStack>
 
-      {/* Interactive Contact Widgets */}
       <Box>
         <Text
           fontSize={{ base: "lg", md: "xl" }}
@@ -499,7 +492,6 @@ const ContactContent = () => {
         </Grid>
       </Box>
 
-      {/* GSAP Modal */}
       <GSAPModal
         isOpen={isOpen}
         onClose={onClose}
@@ -516,7 +508,6 @@ const ContactContent = () => {
   );
 };
 
-// Create a new component with the HeroSection HOC
 const HeroWithContent = HeroSection(ContactContent);
 
 const Contact = () => {
