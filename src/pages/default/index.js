@@ -69,7 +69,7 @@ const HeroContent = () => {
   }, []);
 
   return (
-    <VStack align="flex-start" spacing={4}>
+    <VStack align="flex-start" spacing={4} justify="center" h="full">
       <Text
         mb={0}
         fontSize={{ base: "2xl", md: "3xl", lg: "3xl" }}
