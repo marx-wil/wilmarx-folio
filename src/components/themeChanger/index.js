@@ -4,7 +4,7 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import {SunIcon, MoonIcon} from "@chakra-ui/icons"
+import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
@@ -186,7 +186,7 @@ const ThemeChanger = ({ onThemeChange }) => {
   if (!isMounted) return null;
 
   return (
-    <Box position={"fixed"} bottom={5} right={5} zIndex={9999}>
+    <Box position={"fixed"} bottom={5} right={5} zIndex={9998}>
       <IconButton
         ref={buttonRef}
         icon={
