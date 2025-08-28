@@ -23,7 +23,6 @@ const Layout = (Component) => {
     const [ripples] = useState([]);
     const [isMounted, setIsMounted] = useState(false);
 
-    // Enhanced color tokens for better consistency
     const bgColor = useColorModeValue("gray.50", "gray.900");
     const textColor = colorMode === "light" ? "gray.800" : "gray.100";
     const cursorColor = useColorModeValue(
@@ -69,13 +68,11 @@ const Layout = (Component) => {
       lg: "1.3",
     });
 
-    // Initialize GSAP timeline
     useEffect(() => {
       layoutTimeline.current = gsap.timeline();
       setIsMounted(true);
     }, []);
 
-    // Enhanced initial mount animation
     useEffect(() => {
       if (!isMounted) return;
 
@@ -108,7 +105,6 @@ const Layout = (Component) => {
           "-=0.8"
         );
 
-      // Enhanced wave animations with different timings and easing
       gsap.to(waveRef1.current, {
         y: "+=20",
         duration: 12,
@@ -132,8 +128,6 @@ const Layout = (Component) => {
         yoyo: true,
         ease: "sine.inOut",
       });
-
-      // Add subtle rotation to waves
       gsap.to([waveRef1.current, waveRef2.current, waveRef3.current], {
         rotation: "+=1",
         duration: 20,
@@ -146,7 +140,6 @@ const Layout = (Component) => {
       };
     }, [isMounted]);
 
-    // Enhanced theme change animation
     useEffect(() => {
       if (!isMounted || !layoutTimeline.current) return;
 
@@ -195,7 +188,6 @@ const Layout = (Component) => {
       isMounted,
     ]);
 
-    // Enhanced mouse movement effect
     useEffect(() => {
       if (!isMounted) return;
 
@@ -212,11 +204,9 @@ const Layout = (Component) => {
       };
 
       const updateCursor = () => {
-        // Smoother lerp for main cursor
         cursorX += (mouseX - cursorX) * 0.12;
         cursorY += (mouseY - cursorY) * 0.12;
 
-        // Faster lerp for dot cursor
         dotX += (mouseX - dotX) * 0.3;
         dotY += (mouseY - dotY) * 0.3;
 
@@ -247,15 +237,12 @@ const Layout = (Component) => {
       };
     }, [isMounted]);
 
-    // Enhanced ripple effect
     useEffect(() => {
       if (!isMounted) return;
 
       const handleClick = () => {
-        // Enhanced ripple animation for waves
         const tl = gsap.timeline();
 
-        // Animate each wave with a staggered ripple effect
         tl.to([waveRef1.current, waveRef2.current, waveRef3.current], {
           scale: "+=0.08",
           duration: 0.5,
@@ -267,8 +254,6 @@ const Layout = (Component) => {
           ease: "elastic.out(1, 0.3)",
           stagger: 0.15,
         });
-
-        // Enhanced cursor animation on click
         if (cursorRef.current && cursorDotRef.current) {
           gsap.to(cursorRef.current, {
             scale: 0.8,
@@ -323,7 +308,6 @@ const Layout = (Component) => {
           },
         }}
       >
-        {/* Ripple Effects */}
         {ripples.map((ripple) => (
           <Box
             key={ripple.id}
@@ -343,7 +327,6 @@ const Layout = (Component) => {
           />
         ))}
 
-        {/* Enhanced Custom Cursor */}
         <Box
           ref={cursorRef}
           position="fixed"
@@ -375,7 +358,6 @@ const Layout = (Component) => {
           boxShadow="0 0 8px rgba(0, 0, 0, 0.1)"
         />
 
-        {/* Enhanced Layered Wavy Circle Background */}
         <Box
           position="absolute"
           top="50%"
@@ -387,7 +369,6 @@ const Layout = (Component) => {
           pointerEvents="none"
           overflow="visible"
         >
-          {/* Layer 1 - Largest wave */}
           <svg
             ref={waveRef1}
             style={{
@@ -422,7 +403,6 @@ const Layout = (Component) => {
             </path>
           </svg>
 
-          {/* Layer 2 - Medium wave */}
           <svg
             ref={waveRef2}
             style={{
@@ -456,7 +436,6 @@ const Layout = (Component) => {
             </path>
           </svg>
 
-          {/* Layer 3 - Smallest wave */}
           <svg
             ref={waveRef3}
             style={{
