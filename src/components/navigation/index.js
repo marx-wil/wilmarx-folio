@@ -1,7 +1,24 @@
-import { Box, IconButton, useColorModeValue, VStack, HStack, Link, useColorMode } from "@chakra-ui/react";
-import { FaBars, FaTimes, FaGithub, FaInstagram, FaFacebook, FaLinkedin } from "react-icons/fa";
+import {
+  Box,
+  IconButton,
+  useColorModeValue,
+  VStack,
+  HStack,
+  Link,
+  useColorMode,
+  Flex,
+} from "@chakra-ui/react";
+import {
+  FaBars,
+  FaTimes,
+  FaGithub,
+  FaInstagram,
+  FaFacebook,
+  FaLinkedin,
+} from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import ThemeChanger from "../themeChanger";
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,36 +30,46 @@ const Nav = () => {
 
   // Theme-aware colors
   const textColor = useColorModeValue("black", "white");
-  const overlayBg = useColorModeValue("rgba(6, 8, 9, 0.98)", "rgba(247, 248, 250, 0.98)");
+  const overlayBg = useColorModeValue(
+    "rgba(6, 8, 9, 0.98)",
+    "rgba(247, 248, 250, 0.98)"
+  );
   const overlayTextColor = useColorModeValue("white", "black");
-  const iconHoverColor = useColorModeValue("rgba(255, 255, 255, 0.8)", "rgba(0, 0, 0, 0.8)");
+  const iconHoverColor = useColorModeValue(
+    "rgba(255, 255, 255, 0.8)",
+    "rgba(0, 0, 0, 0.8)"
+  );
 
   useEffect(() => {
     // Initialize timeline
     tl.current = gsap.timeline({ paused: true });
-    
+
     // Setup the animation
     tl.current
       .to(overlayRef.current, {
-        clipPath: 'circle(150% at 95% 5%)',
+        clipPath: "circle(150% at 95% 5%)",
         duration: 0.8,
-        ease: "power3.inOut"
+        ease: "power3.inOut",
       })
-      .to(linksRef.current.children, {
-        y: 0,
-        opacity: 1,
-        stagger: 0.1,
-        duration: 0.4,
-        ease: "back.out(1.7)"
-      }, "-=0.4");
+      .to(
+        linksRef.current.children,
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.1,
+          duration: 0.4,
+          ease: "back.out(1.7)",
+        },
+        "-=0.4"
+      );
 
     // Initial state
     gsap.set(overlayRef.current, {
-      clipPath: 'circle(0% at 95% 5%)'
+      clipPath: "circle(0% at 95% 5%)",
     });
     gsap.set(linksRef.current.children, {
       y: 50,
-      opacity: 0
+      opacity: 0,
     });
   }, []);
 
@@ -52,7 +79,7 @@ const Nav = () => {
       gsap.to(overlayRef.current, {
         backgroundColor: overlayBg,
         duration: 0.4,
-        ease: "power2.inOut"
+        ease: "power2.inOut",
       });
     }
   }, [colorMode, overlayBg]);
@@ -68,20 +95,23 @@ const Nav = () => {
 
   return (
     <>
-      {/* Hamburger Button */}
-      <Box position="fixed" top={4} right={4} zIndex={1001}>
-        <IconButton
-          ref={menuRef}
-          icon={isOpen ? <FaTimes /> : <FaBars />}
-          variant="ghost"
-          size="lg"
-          onClick={toggleMenu}
-          display={{ base: "flex", md: "none" }}
-          color={isOpen ? overlayTextColor : textColor}
-          _hover={{ bg: "transparent" }}
-          transition="color 0.3s ease"
-        />
-      </Box>
+      <Flex>
+        {/* Hamburger Button */}
+        <Box position="fixed" top={4} right={4} zIndex={1001}>
+          <IconButton
+            ref={menuRef}
+            icon={isOpen ? <FaTimes /> : <FaBars />}
+            variant="ghost"
+            size="lg"
+            onClick={toggleMenu}
+            display={{ base: "flex", md: "none" }}
+            color={isOpen ? overlayTextColor : textColor}
+            _hover={{ bg: "transparent" }}
+            transition="color 0.3s ease"
+          />
+        </Box>
+        <ThemeChanger />
+      </Flex>
 
       {/* Overlay Menu */}
       <Box
@@ -105,32 +135,32 @@ const Nav = () => {
           color={overlayTextColor}
         >
           <HStack spacing={8}>
-            <Link 
-              href="#" 
+            <Link
+              href="#"
               fontSize="xl"
               _hover={{ color: iconHoverColor }}
               transition="color 0.2s ease"
             >
               <FaGithub size={30} />
             </Link>
-            <Link 
-              href="#" 
+            <Link
+              href="#"
               fontSize="xl"
               _hover={{ color: iconHoverColor }}
               transition="color 0.2s ease"
             >
               <FaInstagram size={30} />
             </Link>
-            <Link 
-              href="#" 
+            <Link
+              href="#"
               fontSize="xl"
               _hover={{ color: iconHoverColor }}
               transition="color 0.2s ease"
             >
               <FaFacebook size={30} />
             </Link>
-            <Link 
-              href="#" 
+            <Link
+              href="#"
               fontSize="xl"
               _hover={{ color: iconHoverColor }}
               transition="color 0.2s ease"
@@ -144,4 +174,4 @@ const Nav = () => {
   );
 };
 
-export default Nav; 
+export default Nav;
