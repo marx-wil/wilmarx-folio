@@ -381,7 +381,7 @@ const AboutContent = () => {
             ? interactiveWidgets.find((w) => w.id === activeModal)?.title
             : ""
         }
-        size="lg"
+        size="md"
       >
         {getModalContent()}
       </GSAPModal>
