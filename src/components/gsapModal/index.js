@@ -1,11 +1,4 @@
-import {
-  Box,
-  useColorModeValue,
-  IconButton,
-  Text,
-  VStack,
-  HStack,
-} from "@chakra-ui/react";
+import { Box, useColorModeValue, IconButton, Text } from "@chakra-ui/react";
 import { FaTimes } from "react-icons/fa";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
@@ -16,7 +9,6 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
   const contentRef = useRef(null);
   const closeBtnRef = useRef(null);
 
-  // Color tokens
   const bgColor = useColorModeValue("white", "gray.800");
   const overlayBg = useColorModeValue(
     "rgba(0, 0, 0, 0.8)",
@@ -28,7 +20,6 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
   const scrollThumbBg = useColorModeValue("gray.300", "gray.600");
   const scrollThumbHoverBg = useColorModeValue("gray.400", "gray.500");
 
-  // Size variants
   const sizeMap = {
     sm: { w: "90vw", maxW: "400px", h: "auto", maxH: "80vh" },
     md: { w: "90vw", maxW: "700px", h: "auto", maxH: "85vh" },
@@ -40,10 +31,8 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
 
   useEffect(() => {
     if (isOpen) {
-      // Show modal with GSAP animation
       const tl = gsap.timeline();
 
-      // Initial state
       gsap.set(overlayRef.current, { opacity: 0 });
       gsap.set(modalRef.current, {
         scale: 0.8,
@@ -54,14 +43,12 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
       gsap.set(contentRef.current, { opacity: 0, y: 20 });
       gsap.set(closeBtnRef.current, { scale: 0, rotation: -180 });
 
-      // Overlay fade in
       tl.to(overlayRef.current, {
         opacity: 1,
         duration: 0.3,
         ease: "power2.out",
       });
 
-      // Modal entrance animation
       tl.to(
         modalRef.current,
         {
@@ -75,7 +62,6 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
         "-=0.1"
       );
 
-      // Content fade in
       tl.to(
         contentRef.current,
         {
@@ -87,7 +73,6 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
         "-=0.3"
       );
 
-      // Close button animation
       tl.to(
         closeBtnRef.current,
         {
@@ -99,7 +84,6 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
         "-=0.2"
       );
 
-      // Add subtle floating animation
       gsap.to(modalRef.current, {
         y: "+=5",
         duration: 3,
@@ -108,8 +92,6 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
         ease: "sine.inOut",
       });
     } else if (overlayRef.current && modalRef.current) {
-      // Only animate out if elements exist
-      // Hide modal with GSAP animation
       const tl = gsap.timeline();
 
       tl.to(closeBtnRef.current, {
@@ -152,7 +134,6 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
     }
   }, [isOpen, onClose]);
 
-  // Handle escape key
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === "Escape" && isOpen) {
@@ -218,7 +199,6 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
           opacity: 0.8,
         }}
       >
-        {/* Close Button */}
         <IconButton
           ref={closeBtnRef}
           icon={<FaTimes />}
@@ -238,7 +218,6 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
           transition="all 0.2s ease"
         />
 
-        {/* Header */}
         {title && (
           <Box
             p={6}
@@ -258,7 +237,6 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
           </Box>
         )}
 
-        {/* Content */}
         <Box
           ref={contentRef}
           p={6}
