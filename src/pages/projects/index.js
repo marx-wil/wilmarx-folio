@@ -597,12 +597,8 @@ const ProjectsContent = () => {
       <GSAPModal
         isOpen={isOpen}
         onClose={onClose}
-        title={
-          activeModal
-            ? projectWidgets.find((p) => p.id === activeModal)?.title
-            : ""
-        }
-        size="xl"
+        title={activeModal ? projectWidgets.find(p => p.id === activeModal)?.title : ""}
+        size="md"
       >
         {getModalContent()}
       </GSAPModal>
