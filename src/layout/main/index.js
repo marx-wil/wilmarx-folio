@@ -26,14 +26,34 @@ const Layout = (Component) => {
     // Enhanced color tokens for better consistency
     const bgColor = useColorModeValue("gray.50", "gray.900");
     const textColor = colorMode === "light" ? "gray.800" : "gray.100";
-    const cursorColor = useColorModeValue("rgba(79, 79, 79, 0.2)", "rgba(247, 248, 250, 0.2)");
-    const cursorDotColor = useColorModeValue("rgba(79, 79, 79, 0.6)", "rgba(247, 248, 250, 0.6)");
-    const rippleColor = useColorModeValue("rgba(79, 79, 79, 0.1)", "rgba(247, 248, 250, 0.1)");
-    const waveColor1 = useColorModeValue("rgba(79, 79, 79, 0.03)", "rgba(247, 248, 250, 0.01)");
-    const waveColor2 = useColorModeValue("rgba(79, 79, 79, 0.025)", "rgba(247, 248, 250, 0.008)");
-    const waveColor3 = useColorModeValue("rgba(79, 79, 79, 0.015)", "rgba(247, 248, 250, 0.005)");
-    const gradientLight = "radial-gradient(circle at 50% 50%, rgba(79, 79, 79, 0.015), rgba(79, 79, 79, 0) 100%)";
-    const gradientDark = "radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.005), rgba(255, 255, 255, 0) 100%)";
+    const cursorColor = useColorModeValue(
+      "rgba(79, 79, 79, 0.2)",
+      "rgba(247, 248, 250, 0.2)"
+    );
+    const cursorDotColor = useColorModeValue(
+      "rgba(79, 79, 79, 0.6)",
+      "rgba(247, 248, 250, 0.6)"
+    );
+    const rippleColor = useColorModeValue(
+      "rgba(79, 79, 79, 0.1)",
+      "rgba(247, 248, 250, 0.1)"
+    );
+    const waveColor1 = useColorModeValue(
+      "rgba(79, 79, 79, 0.03)",
+      "rgba(247, 248, 250, 0.01)"
+    );
+    const waveColor2 = useColorModeValue(
+      "rgba(79, 79, 79, 0.025)",
+      "rgba(247, 248, 250, 0.008)"
+    );
+    const waveColor3 = useColorModeValue(
+      "rgba(79, 79, 79, 0.015)",
+      "rgba(247, 248, 250, 0.005)"
+    );
+    const gradientLight =
+      "radial-gradient(circle at 50% 50%, rgba(79, 79, 79, 0.015), rgba(79, 79, 79, 0) 100%)";
+    const gradientDark =
+      "radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.005), rgba(255, 255, 255, 0) 100%)";
     const backgroundImage = useColorModeValue(gradientLight, gradientDark);
 
     const waveSize = useBreakpointValue({
@@ -165,7 +185,15 @@ const Layout = (Component) => {
           },
           "-=0.4"
         );
-    }, [colorMode, bgColor, textColor, waveColor1, waveColor2, waveColor3, isMounted]);
+    }, [
+      colorMode,
+      bgColor,
+      textColor,
+      waveColor1,
+      waveColor2,
+      waveColor3,
+      isMounted,
+    ]);
 
     // Enhanced mouse movement effect
     useEffect(() => {
@@ -344,6 +372,7 @@ const Layout = (Component) => {
             transformOrigin: "center",
             backdropFilter: "blur(2px)",
           }}
+          boxShadow="0 0 8px rgba(0, 0, 0, 0.1)"
         />
 
         {/* Enhanced Layered Wavy Circle Background */}
@@ -462,7 +491,13 @@ const Layout = (Component) => {
           </svg>
         </Box>
 
-        <Box ref={contentRef} position="relative" zIndex={1} height="100dvh" overflow="hidden">
+        <Box
+          ref={contentRef}
+          position="relative"
+          zIndex={1}
+          height="100dvh"
+          overflow="hidden"
+        >
           <Nav />
           {isMounted && <Component {...props} />}
         </Box>
