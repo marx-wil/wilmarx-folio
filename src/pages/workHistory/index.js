@@ -459,7 +459,7 @@ const WorkHistoryContent = () => {
         isOpen={isOpen}
         onClose={onClose}
         title={activeModal ? jobWidgets.find(j => j.id === activeModal)?.title : ""}
-        size="xl"
+        size="md"
       >
         {getModalContent()}
       </GSAPModal>
