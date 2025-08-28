@@ -2,7 +2,6 @@ import { Show, HStack, Link, Icon, useColorModeValue } from "@chakra-ui/react";
 import socialLinksLg from "./data";
 
 const SocialLinksLg = () => {
-  // Enhanced color tokens for better consistency
   const linkColor = useColorModeValue("gray.600", "gray.400");
   const hoverColor = useColorModeValue("blue.600", "blue.400");
   const hoverBg = useColorModeValue("blue.50", "blue.900");
@@ -29,6 +28,9 @@ const SocialLinksLg = () => {
               bg: hoverBg,
               transform: "translateY(-2px)",
               boxShadow: "md",
+              _before: {
+                width: "100%",
+              },
             }}
             _active={{
               transform: "translateY(0px)",
@@ -47,14 +49,9 @@ const SocialLinksLg = () => {
               transform: "translateX(-50%)",
               transition: "width 0.3s ease",
             }}
-            _hover={{
-              _before: {
-                width: "100%",
-              },
-            }}
           >
-            <Icon 
-              as={link.icon} 
+            <Icon
+              as={link.icon}
               boxSize={5}
               _groupHover={{
                 transform: "scale(1.1)",
