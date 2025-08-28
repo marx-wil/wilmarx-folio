@@ -25,18 +25,15 @@ import HeroHeader from "../../components/HeroHeader";
 import GSAPModal from "../../components/gsapModal";
 import { useState } from "react";
 
-// Create a content component for the middle section
 const WorkHistoryContent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [activeModal, setActiveModal] = useState(null);
 
-  // Enhanced color tokens for better consistency
   const textColor = useColorModeValue("gray.600", "gray.400");
   const cardBg = useColorModeValue("white", "gray.800");
   const cardBorderColor = useColorModeValue("gray.200", "gray.700");
   const headingColor = useColorModeValue("gray.800", "gray.200");
 
-  // Interactive job history widgets data
   const jobWidgets = [
     {
       id: "senior-developer",
@@ -209,7 +206,6 @@ const WorkHistoryContent = () => {
 
     return (
       <VStack spacing={6} align="stretch">
-        {/* Job Header */}
         <Box textAlign="center">
           <Box
             w="80px"
@@ -258,7 +254,6 @@ const WorkHistoryContent = () => {
           </HStack>
         </Box>
 
-        {/* Job Description */}
         <Text
           color={textColor}
           lineHeight="tall"
@@ -268,7 +263,6 @@ const WorkHistoryContent = () => {
           {job.description}
         </Text>
 
-        {/* Key Responsibilities */}
         <Box>
           <Text fontSize="lg" fontWeight="semibold" color={headingColor} mb={3}>
             Key Responsibilities:
@@ -291,7 +285,6 @@ const WorkHistoryContent = () => {
           </VStack>
         </Box>
 
-        {/* Technologies Used */}
         <Box>
           <Text fontSize="lg" fontWeight="semibold" color={headingColor} mb={3}>
             Technologies Used:
@@ -313,7 +306,6 @@ const WorkHistoryContent = () => {
           </Flex>
         </Box>
 
-        {/* Key Achievements */}
         <Box>
           <Text fontSize="lg" fontWeight="semibold" color={headingColor} mb={3}>
             Key Achievements:
@@ -347,40 +339,10 @@ const WorkHistoryContent = () => {
       w="full"
       pb={8}
     >
-      {/* Header Section */}
       <VStack align="flex-start" spacing={4}>
-        {/* <Text
-          mb={0}
-          fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
-          fontWeight="bold"
-          letterSpacing="0.15rem"
-          lineHeight="1.1"
-          className="poppins"
-          color={useColorModeValue("gray.500", "gray.400")}
-          textTransform="uppercase"
-          opacity={0.8}
-        >
-          My Work
-        </Text>
-        <Text
-          fontSize={{ base: "4xl", sm: "5xl", md: "6xl", lg: "7xl", xl: "8xl" }}
-          fontWeight="black"
-          letterSpacing="tight"
-          lineHeight="0.9"
-          className="poppins"
-          bgGradient={useColorModeValue(
-            "linear-gradient(to-r, gray.800, blue.600)",
-            "linear-gradient(to-r, gray.200, blue.400)"
-          )}
-          bgClip="text"
-        >
-          History
-        </Text>
-         */}
         <HeroHeader title="My Work" subtitle="Hi" highlightText="story" />
       </VStack>
 
-      {/* Interactive Job History Widgets */}
       <Box>
         <Text
           fontSize={{ base: "lg", md: "xl" }}
@@ -513,7 +475,6 @@ const WorkHistoryContent = () => {
         </Grid>
       </Box>
 
-      {/* GSAP Modal */}
       <GSAPModal
         isOpen={isOpen}
         onClose={onClose}
@@ -528,7 +489,6 @@ const WorkHistoryContent = () => {
   );
 };
 
-// Create a new component with the HeroSection HOC
 const HeroWithContent = HeroSection(WorkHistoryContent);
 
 const WorkHistory = () => {
