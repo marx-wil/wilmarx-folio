@@ -4,7 +4,7 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import {SunIcon, MoonIcon} from "@chakra-ui/icons"
+import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
@@ -17,19 +17,16 @@ const ThemeChanger = ({ onThemeChange }) => {
     colorMode === "light" ? "moon" : "sun"
   );
 
-  // Move all useColorModeValue hooks to the top level
   const buttonBg = useColorModeValue("#060809", "#F7F8FA");
   const buttonColor = useColorModeValue("#F7F8FA", "#060809");
   const hoverBg = useColorModeValue("#F7F8FA", "#060809");
   const hoverColor = useColorModeValue("#060809", "#F7F8FA");
 
-  // Set mounted state
   useEffect(() => {
     setIsMounted(true);
     return () => setIsMounted(false);
   }, []);
 
-  // Update icon when color mode changes
   useEffect(() => {
     if (isMounted) {
       setCurrentIcon(colorMode === "light" ? "moon" : "sun");
@@ -41,7 +38,6 @@ const ThemeChanger = ({ onThemeChange }) => {
 
     const tl = gsap.timeline();
 
-    // Create and animate overlay
     const overlay = document.createElement("div");
     overlay.style.position = "fixed";
     overlay.style.top = "0";
@@ -55,12 +51,10 @@ const ThemeChanger = ({ onThemeChange }) => {
     overlay.style.transformOrigin = "bottom right";
     document.body.appendChild(overlay);
 
-    // Get button position for ripple effect
     const buttonBounds = buttonRef.current.getBoundingClientRect();
     const rippleX = buttonBounds.right;
     const rippleY = buttonBounds.bottom;
 
-    // Initial icon fade out with rotation
     tl.to(iconRef.current, {
       rotate: 90,
       scale: 0,
@@ -68,8 +62,6 @@ const ThemeChanger = ({ onThemeChange }) => {
       duration: 0.3,
       ease: "power2.inOut",
     });
-
-    // Overlay animation
     tl.fromTo(
       overlay,
       {
@@ -87,10 +79,8 @@ const ThemeChanger = ({ onThemeChange }) => {
           toggleColorMode();
           setCurrentIcon(currentIcon === "moon" ? "sun" : "moon");
 
-          // Notify parent layout of theme change
           onThemeChange?.(colorMode === "light" ? "dark" : "light");
 
-          // Fade out overlay
           gsap.to(overlay, {
             opacity: 0,
             duration: 0.5,
@@ -99,7 +89,6 @@ const ThemeChanger = ({ onThemeChange }) => {
             },
           });
 
-          // Animate new icon with enhanced effects
           const newIconTl = gsap.timeline();
           newIconTl
             .set(iconRef.current, {
@@ -126,7 +115,6 @@ const ThemeChanger = ({ onThemeChange }) => {
               "-=0.2"
             );
 
-          // Add sparkle effect
           const sparkle = document.createElement("div");
           sparkle.style.position = "absolute";
           sparkle.style.top = "50%";
@@ -150,7 +138,6 @@ const ThemeChanger = ({ onThemeChange }) => {
       }
     );
 
-    // Button glow effect
     tl.fromTo(
       buttonRef.current,
       {
@@ -165,7 +152,6 @@ const ThemeChanger = ({ onThemeChange }) => {
     );
   };
 
-  // Initial mount animation
   useEffect(() => {
     if (!isMounted) return;
 
@@ -186,7 +172,7 @@ const ThemeChanger = ({ onThemeChange }) => {
   if (!isMounted) return null;
 
   return (
-    <Box position={"fixed"} bottom={5} right={5} zIndex={9999}>
+    <Box position={"fixed"} bottom={5} right={5} zIndex={9998}>
       <IconButton
         ref={buttonRef}
         icon={
