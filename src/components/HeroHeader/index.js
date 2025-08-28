@@ -5,8 +5,10 @@ const HeroHeader = ({ title, subtitle, highlightText }) => {
   const titleColor = useColorModeValue("gray.500", "gray.400");
   const subtitleColor = useColorModeValue("gray.800", "gray.200");
   const highlightColor = useColorModeValue("blue.600", "blue.400");
-  const highlightBgColor = useColorModeValue("blue.100", "blue.900");
-  const highlightUnderlineColor = useColorModeValue("blue.200", "blue.800");
+  const highlightUnderlineColor = useColorModeValue(
+    "blackAlpha.800",
+    "whiteAlpha.800"
+  );
 
   return (
     <VStack align="flex-start" spacing={{ base: 3, md: 4, lg: 5 }}>
