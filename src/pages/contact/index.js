@@ -10,12 +10,9 @@ import {
   FormLabel,
   Grid,
   GridItem,
-  Flex,
   Icon,
   useToast,
   useDisclosure,
-  HStack,
-  Badge,
 } from "@chakra-ui/react";
 import {
   FaEnvelope,
@@ -24,14 +21,11 @@ import {
   FaPaperPlane,
   FaGithub,
   FaLinkedin,
-  FaTwitter,
-  FaGlobe,
-  FaCode,
-  FaHeart,
 } from "react-icons/fa";
 import HeroSection from "../../components/heroSection";
 import { useState } from "react";
 import GSAPModal from "../../components/gsapModal";
+import HeroHeader from "../../components/HeroHeader";
 
 // Create a content component for the middle section
 const ContactContent = () => {
@@ -97,7 +91,7 @@ const ContactContent = () => {
       id: "email",
       icon: FaEnvelope,
       title: "Email",
-      subtitle: "wilmarx@example.com",
+      subtitle: "wilmarx@gmail.com",
       color: "green",
       description:
         "Prefer email? Drop me a line directly. I typically respond within 24 hours.",
@@ -108,21 +102,21 @@ const ContactContent = () => {
       id: "phone",
       icon: FaPhone,
       title: "Phone",
-      subtitle: "+1 (555) 123-4567",
+      subtitle: "+63 963 877 3839",
       color: "purple",
       description:
         "Need to talk? Feel free to call me during business hours. I'm always happy to discuss new opportunities.",
       action: "Call Now",
-      href: "tel:+15551234567",
+      href: "tel:+639638773839",
     },
     {
       id: "location",
       icon: FaMapMarkerAlt,
       title: "Location",
-      subtitle: "San Francisco, CA",
+      subtitle: "Cabuyao, Povince of Laguna",
       color: "orange",
       description:
-        "Based in the heart of Silicon Valley. Open to remote work and occasional travel for exciting projects.",
+        " Based in the Philippines, but open to remote opportunities worldwide.",
       action: "View Map",
       href: "#",
     },
@@ -384,33 +378,11 @@ const ContactContent = () => {
     >
       {/* Header Section */}
       <VStack align="flex-start" spacing={4}>
-        <Text
-          mb={0}
-          fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
-          fontWeight="bold"
-          letterSpacing="0.15rem"
-          lineHeight="1.1"
-          className="poppins"
-          color={useColorModeValue("gray.500", "gray.400")}
-          textTransform="uppercase"
-          opacity={0.8}
-        >
-          Get in Touch
-        </Text>
-        <Text
-          fontSize={{ base: "4xl", sm: "5xl", md: "6xl", lg: "7xl", xl: "8xl" }}
-          fontWeight="black"
-          letterSpacing="tight"
-          lineHeight="0.9"
-          className="poppins"
-          bgGradient={useColorModeValue(
-            "linear-gradient(to-r, gray.800, blue.600)",
-            "linear-gradient(to-r, gray.200, blue.400)"
-          )}
-          bgClip="text"
-        >
-          Contact
-        </Text>
+        <HeroHeader
+          title="GET IN TOUCH"
+          subtitle="Contact&nbsp;"
+          highlightText="Me"
+        />
       </VStack>
 
       {/* Interactive Contact Widgets */}
