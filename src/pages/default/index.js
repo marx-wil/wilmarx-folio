@@ -3,7 +3,6 @@ import HeroSection from "../../components/heroSection";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-// Create a content component for the middle section
 const HeroContent = () => {
   const typingTextRef = useRef(null);
   const cursorRef = useRef(null);
@@ -24,37 +23,29 @@ const HeroContent = () => {
       const currentWord = words[currentWordIndex];
 
       if (isDeleting) {
-        // Remove a character
         typingText.textContent = currentWord.substring(0, currentCharIndex - 1);
         currentCharIndex--;
-        typingSpeed = 50; // Faster when deleting
+        typingSpeed = 50;
       } else {
-        // Add a character
         typingText.textContent = currentWord.substring(0, currentCharIndex + 1);
         currentCharIndex++;
-        typingSpeed = 100; // Normal speed when typing
+        typingSpeed = 100;
       }
 
-      // If word is complete
       if (!isDeleting && currentCharIndex === currentWord.length) {
-        // Pause at the end of typing
         typingSpeed = 1500;
         isDeleting = true;
-      }
-      // If word is deleted
-      else if (isDeleting && currentCharIndex === 0) {
+      } else if (isDeleting && currentCharIndex === 0) {
         isDeleting = false;
         currentWordIndex = (currentWordIndex + 1) % words.length;
-        typingSpeed = 500; // Pause before starting to type the next word
+        typingSpeed = 500;
       }
 
       setTimeout(type, typingSpeed);
     };
 
-    // Start the typing animation
     type();
 
-    // Cursor blinking animation
     gsap.to(cursor, {
       opacity: 0,
       duration: 0.5,
@@ -63,9 +54,7 @@ const HeroContent = () => {
       ease: "none",
     });
 
-    return () => {
-      // Clean up if needed
-    };
+    return () => {};
   }, []);
 
   return (
@@ -111,7 +100,6 @@ const HeroContent = () => {
   );
 };
 
-// Create a new component with the HeroSection HOC
 const HeroWithContent = HeroSection(HeroContent);
 
 const Default = () => {
