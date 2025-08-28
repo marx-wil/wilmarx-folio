@@ -32,16 +32,10 @@ const ProjectsContent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [activeModal, setActiveModal] = useState(null);
 
-  // Enhanced color tokens for better consistency
-  const accentColor = useColorModeValue("blue.500", "blue.400");
   const textColor = useColorModeValue("gray.600", "gray.400");
   const cardBg = useColorModeValue("white", "gray.800");
   const cardBorderColor = useColorModeValue("gray.200", "gray.700");
-  const techBg = useColorModeValue("gray.100", "gray.700");
-  const techColor = useColorModeValue("gray.700", "gray.300");
-  const purpleColor = useColorModeValue("purple.500", "purple.400");
   const projectTextColor = useColorModeValue("gray.800", "gray.200");
-  const projectBorderColor = useColorModeValue("gray.200", "gray.700");
 
   const textContent = [
     {
@@ -60,7 +54,6 @@ const ProjectsContent = () => {
     },
   ];
 
-  // Interactive project widgets data
   const projectWidgets = [
     {
       id: "dental-system",
@@ -247,7 +240,6 @@ const ProjectsContent = () => {
 
     return (
       <VStack spacing={6} align="stretch">
-        {/* Project Header */}
         <Box textAlign="center">
           <Box
             w="80px"
@@ -300,7 +292,6 @@ const ProjectsContent = () => {
           </Badge>
         </Box>
 
-        {/* Project Image */}
         <Box borderRadius="xl" overflow="hidden" boxShadow="lg">
           <Image
             src={project.image}
@@ -311,7 +302,6 @@ const ProjectsContent = () => {
           />
         </Box>
 
-        {/* Project Description */}
         <Text
           color={textColor}
           lineHeight="tall"
@@ -321,7 +311,6 @@ const ProjectsContent = () => {
           {project.description}
         </Text>
 
-        {/* Technology Stack */}
         <Box>
           <Text
             fontSize="lg"
@@ -348,7 +337,6 @@ const ProjectsContent = () => {
           </Flex>
         </Box>
 
-        {/* Key Features */}
         <Box>
           <Text
             fontSize="lg"
@@ -376,7 +364,6 @@ const ProjectsContent = () => {
           </VStack>
         </Box>
 
-        {/* Challenges & Impact */}
         <Grid templateColumns="1fr 1fr" gap={6}>
           <Box>
             <Text
@@ -460,7 +447,6 @@ const ProjectsContent = () => {
         </GridItem>
       </Grid>
 
-      {/* Interactive Project Widgets Section */}
       <Box mt={{ base: 8, md: 12 }}>
         <Text
           fontSize={{ base: "lg", md: "xl" }}
@@ -593,11 +579,14 @@ const ProjectsContent = () => {
         </Grid>
       </Box>
 
-      {/* GSAP Modal */}
       <GSAPModal
         isOpen={isOpen}
         onClose={onClose}
-        title={activeModal ? projectWidgets.find(p => p.id === activeModal)?.title : ""}
+        title={
+          activeModal
+            ? projectWidgets.find((p) => p.id === activeModal)?.title
+            : ""
+        }
         size="md"
       >
         {getModalContent()}
@@ -606,7 +595,6 @@ const ProjectsContent = () => {
   );
 };
 
-// Create a new component with the HeroSection HOC
 const HeroWithContent = HeroSection(ProjectsContent);
 
 const Projects = () => {
