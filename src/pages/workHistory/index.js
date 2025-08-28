@@ -1,9 +1,9 @@
-import { 
-  Text, 
-  useColorModeValue, 
-  VStack, 
-  Box, 
-  Grid, 
+import {
+  Text,
+  useColorModeValue,
+  VStack,
+  Box,
+  Grid,
   GridItem,
   Flex,
   Icon,
@@ -12,7 +12,14 @@ import {
   Badge,
   HStack,
 } from "@chakra-ui/react";
-import { FaCode, FaServer, FaDatabase, FaCloud, FaUsers, FaRocket, FaBuilding, FaGraduationCap } from "react-icons/fa";
+import {
+  FaCode,
+  FaServer,
+  FaDatabase,
+  FaUsers,
+  FaRocket,
+  FaGraduationCap,
+} from "react-icons/fa";
 import HeroSection from "../../components/heroSection";
 import HeroHeader from "../../components/HeroHeader";
 import GSAPModal from "../../components/gsapModal";
@@ -39,20 +46,28 @@ const WorkHistoryContent = () => {
       duration: "2023 - Present",
       status: "Current",
       color: "blue",
-      description: "Leading development of enterprise-level systems and mentoring junior developers.",
+      description:
+        "Leading development of enterprise-level systems and mentoring junior developers.",
       responsibilities: [
         "Architect and develop scalable system solutions",
         "Lead technical design and code reviews",
         "Mentor junior developers and conduct training sessions",
         "Collaborate with cross-functional teams on system integration",
-        "Optimize system performance and implement best practices"
+        "Optimize system performance and implement best practices",
       ],
-      technologies: ["React", "Node.js", "PostgreSQL", "Docker", "AWS", "TypeScript"],
+      technologies: [
+        "React",
+        "Node.js",
+        "PostgreSQL",
+        "Docker",
+        "AWS",
+        "TypeScript",
+      ],
       achievements: [
         "Reduced system downtime by 40% through improved monitoring",
         "Led team of 5 developers to deliver 3 major projects on time",
-        "Implemented CI/CD pipeline reducing deployment time by 60%"
-      ]
+        "Implemented CI/CD pipeline reducing deployment time by 60%",
+      ],
     },
     {
       id: "full-stack-developer",
@@ -62,20 +77,21 @@ const WorkHistoryContent = () => {
       duration: "2021 - 2023",
       status: "Completed",
       color: "green",
-      description: "Developed full-stack web applications and maintained existing systems.",
+      description:
+        "Developed full-stack web applications and maintained existing systems.",
       responsibilities: [
         "Built responsive web applications using modern frameworks",
         "Developed RESTful APIs and database schemas",
         "Collaborated with designers and product managers",
         "Implemented automated testing and deployment processes",
-        "Provided technical support and bug fixes"
+        "Provided technical support and bug fixes",
       ],
       technologies: ["Vue.js", "Python", "MongoDB", "Express", "Git", "Jest"],
       achievements: [
         "Delivered 8 client projects with 95% client satisfaction",
         "Improved application performance by 35%",
-        "Reduced bug reports by 50% through better testing"
-      ]
+        "Reduced bug reports by 50% through better testing",
+      ],
     },
     {
       id: "systems-analyst",
@@ -85,20 +101,21 @@ const WorkHistoryContent = () => {
       duration: "2019 - 2021",
       status: "Completed",
       color: "purple",
-      description: "Analyzed business requirements and designed system solutions.",
+      description:
+        "Analyzed business requirements and designed system solutions.",
       responsibilities: [
         "Gathered and analyzed business requirements",
         "Designed system architecture and data models",
         "Created technical specifications and documentation",
         "Coordinated with stakeholders and development teams",
-        "Conducted system testing and quality assurance"
+        "Conducted system testing and quality assurance",
       ],
       technologies: ["SQL", "UML", "Visio", "JIRA", "Confluence", "Python"],
       achievements: [
         "Streamlined 5 business processes saving 20 hours per week",
         "Reduced system errors by 30% through better design",
-        "Improved user adoption rates by 45%"
-      ]
+        "Improved user adoption rates by 45%",
+      ],
     },
     {
       id: "junior-developer",
@@ -108,20 +125,21 @@ const WorkHistoryContent = () => {
       duration: "2018 - 2019",
       status: "Completed",
       color: "orange",
-      description: "Started career developing web applications and learning modern technologies.",
+      description:
+        "Started career developing web applications and learning modern technologies.",
       responsibilities: [
         "Developed frontend components and user interfaces",
         "Assisted with backend development and API integration",
         "Participated in code reviews and team meetings",
         "Fixed bugs and implemented feature requests",
-        "Learned new technologies and best practices"
+        "Learned new technologies and best practices",
       ],
       technologies: ["HTML", "CSS", "JavaScript", "React", "Node.js", "Git"],
       achievements: [
         "Contributed to 3 successful product launches",
         "Completed 15+ online courses and certifications",
-        "Received 'Most Improved Developer' award"
-      ]
+        "Received 'Most Improved Developer' award",
+      ],
     },
     {
       id: "intern",
@@ -131,20 +149,21 @@ const WorkHistoryContent = () => {
       duration: "2017 - 2018",
       status: "Completed",
       color: "teal",
-      description: "Gained hands-on experience in software development and team collaboration.",
+      description:
+        "Gained hands-on experience in software development and team collaboration.",
       responsibilities: [
         "Assisted senior developers with coding tasks",
         "Participated in agile development processes",
         "Learned version control and collaboration tools",
         "Attended team meetings and training sessions",
-        "Completed assigned development tasks"
+        "Completed assigned development tasks",
       ],
       technologies: ["Java", "Spring Boot", "MySQL", "Eclipse", "Maven", "Git"],
       achievements: [
         "Successfully completed 6-month internship program",
         "Developed 2 small applications independently",
-        "Received positive feedback from team members"
-      ]
+        "Received positive feedback from team members",
+      ],
     },
     {
       id: "freelance",
@@ -154,21 +173,29 @@ const WorkHistoryContent = () => {
       duration: "2017 - Present",
       status: "Ongoing",
       color: "pink",
-      description: "Working with diverse clients on various projects and technologies.",
+      description:
+        "Working with diverse clients on various projects and technologies.",
       responsibilities: [
         "Develop custom web applications and websites",
         "Provide technical consulting and solutions",
         "Manage project timelines and client communications",
         "Maintain and update existing applications",
-        "Provide ongoing support and maintenance"
+        "Provide ongoing support and maintenance",
       ],
-      technologies: ["React", "Vue.js", "Node.js", "Python", "WordPress", "Shopify"],
+      technologies: [
+        "React",
+        "Vue.js",
+        "Node.js",
+        "Python",
+        "WordPress",
+        "Shopify",
+      ],
       achievements: [
         "Completed 25+ freelance projects successfully",
         "Maintained 95% client satisfaction rate",
-        "Built long-term relationships with 8 recurring clients"
-      ]
-    }
+        "Built long-term relationships with 8 recurring clients",
+      ],
+    },
   ];
 
   const handleWidgetClick = (widgetId) => {
@@ -177,7 +204,7 @@ const WorkHistoryContent = () => {
   };
 
   const getModalContent = () => {
-    const job = jobWidgets.find(j => j.id === activeModal);
+    const job = jobWidgets.find((j) => j.id === activeModal);
     if (!job) return null;
 
     return (
@@ -200,12 +227,23 @@ const WorkHistoryContent = () => {
           <Text fontSize="2xl" fontWeight="bold" color={headingColor} mb={2}>
             {job.title}
           </Text>
-          <Text fontSize="lg" color={`${job.color}.600`} fontWeight="medium" mb={2}>
+          <Text
+            fontSize="lg"
+            color={`${job.color}.600`}
+            fontWeight="medium"
+            mb={2}
+          >
             {job.company}
           </Text>
           <HStack spacing={3} justify="center">
             <Badge
-              colorScheme={job.status === "Current" ? "green" : job.status === "Ongoing" ? "blue" : "gray"}
+              colorScheme={
+                job.status === "Current"
+                  ? "green"
+                  : job.status === "Ongoing"
+                  ? "blue"
+                  : "gray"
+              }
               variant="subtle"
               px={3}
               py={1}
@@ -221,7 +259,12 @@ const WorkHistoryContent = () => {
         </Box>
 
         {/* Job Description */}
-        <Text color={textColor} lineHeight="tall" className="poppins-light" fontSize="md">
+        <Text
+          color={textColor}
+          lineHeight="tall"
+          className="poppins-light"
+          fontSize="md"
+        >
           {job.description}
         </Text>
 
@@ -297,10 +340,16 @@ const WorkHistoryContent = () => {
   };
 
   return (
-    <VStack align="stretch" spacing={{ base: 6, md: 8 }} maxW="6xl" w="full" pb={8}>
+    <VStack
+      align="stretch"
+      spacing={{ base: 6, md: 8 }}
+      maxW="6xl"
+      w="full"
+      pb={8}
+    >
       {/* Header Section */}
       <VStack align="flex-start" spacing={4}>
-        <Text
+        {/* <Text
           mb={0}
           fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
           fontWeight="bold"
@@ -327,6 +376,8 @@ const WorkHistoryContent = () => {
         >
           History
         </Text>
+         */}
+        <HeroHeader title="My Work" subtitle="Hi" highlightText="story" />
       </VStack>
 
       {/* Interactive Job History Widgets */}
@@ -341,9 +392,13 @@ const WorkHistoryContent = () => {
         >
           Explore My Professional Journey
         </Text>
-        
+
         <Grid
-          templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
+          templateColumns={{
+            base: "1fr",
+            md: "repeat(2, 1fr)",
+            lg: "repeat(3, 1fr)",
+          }}
           gap={{ base: 4, md: 6 }}
           w="full"
         >
@@ -361,6 +416,9 @@ const WorkHistoryContent = () => {
                   transform: "translateY(-8px) scale(1.02)",
                   boxShadow: "2xl",
                   borderColor: `${job.color}.400`,
+                  _before: {
+                    transform: "scaleX(1)",
+                  },
                 }}
                 transition="all 0.4s ease"
                 position="relative"
@@ -378,11 +436,6 @@ const WorkHistoryContent = () => {
                   transformOrigin: "left",
                   transition: "transform 0.4s ease",
                 }}
-                _hover={{
-                  _before: {
-                    transform: "scaleX(1)",
-                  },
-                }}
               >
                 <VStack spacing={3} align="center" textAlign="center">
                   <Box
@@ -395,14 +448,14 @@ const WorkHistoryContent = () => {
                     justifyContent="center"
                     transition="all 0.3s ease"
                   >
-                    <Icon 
-                      as={job.icon} 
-                      boxSize={6} 
+                    <Icon
+                      as={job.icon}
+                      boxSize={6}
                       color={`${job.color}.600`}
                       transition="all 0.3s ease"
                     />
                   </Box>
-                  
+
                   <Text
                     fontSize="md"
                     fontWeight="bold"
@@ -411,7 +464,7 @@ const WorkHistoryContent = () => {
                   >
                     {job.title}
                   </Text>
-                  
+
                   <Text
                     fontSize="xs"
                     color={`${job.color}.600`}
@@ -423,7 +476,13 @@ const WorkHistoryContent = () => {
 
                   <HStack spacing={2}>
                     <Badge
-                      colorScheme={job.status === "Current" ? "green" : job.status === "Ongoing" ? "blue" : "gray"}
+                      colorScheme={
+                        job.status === "Current"
+                          ? "green"
+                          : job.status === "Ongoing"
+                          ? "blue"
+                          : "gray"
+                      }
                       variant="subtle"
                       px={2}
                       py={1}
@@ -458,7 +517,9 @@ const WorkHistoryContent = () => {
       <GSAPModal
         isOpen={isOpen}
         onClose={onClose}
-        title={activeModal ? jobWidgets.find(j => j.id === activeModal)?.title : ""}
+        title={
+          activeModal ? jobWidgets.find((j) => j.id === activeModal)?.title : ""
+        }
         size="md"
       >
         {getModalContent()}
