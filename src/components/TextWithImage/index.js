@@ -167,7 +167,6 @@ const TextWithImage = ({
   const hideImageTimeoutRef = useRef(null);
   const countdownIntervalRef = useRef(null);
 
-  // Move all useColorModeValue calls to the top level
   const textColor = useColorModeValue("gray.700", "gray.300");
   const bgColor = useColorModeValue("white", "gray.800");
   const borderColor = useColorModeValue("gray.200", "gray.700");
