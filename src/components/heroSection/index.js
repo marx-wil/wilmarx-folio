@@ -41,7 +41,6 @@ const HeroSection = (WrappedComponent) => {
 
       if (!nameElement || !arrowElement || !backBtn) return;
 
-      // Enhanced timeline for forward navigation
       const timeline = gsap.timeline({ paused: true });
       timeline
         .to(arrowElement, {
@@ -60,7 +59,6 @@ const HeroSection = (WrappedComponent) => {
           "<"
         );
 
-      // Enhanced back button hover animation
       const backBtnHover = gsap.to(backBtn, {
         scale: 1.05,
         rotate: -5,
@@ -69,7 +67,6 @@ const HeroSection = (WrappedComponent) => {
         ease: "power2.out",
       });
 
-      // Enhanced click animation
       const backBtnClick = gsap.timeline({ paused: true });
       backBtnClick
         .to(backBtn, {
@@ -116,7 +113,6 @@ const HeroSection = (WrappedComponent) => {
 
     return (
       <Box position="relative" h="100dvh" w="100vw" overflow="hidden">
-        {/* Enhanced vertical line with subtle animation */}
         <Box
           position="absolute"
           left="10vw"
@@ -138,10 +134,8 @@ const HeroSection = (WrappedComponent) => {
           }}
         />
 
-        {/* Main Content Container with proper height constraints */}
         <Container maxW="container.xl" h="full" position="relative">
           <VStack h="full" align="stretch" justify="space-between" py={8}>
-            {/* Enhanced Top Section */}
             <Box
               pl={{ base: 8, md: 24 }}
               display="flex"
@@ -181,7 +175,6 @@ const HeroSection = (WrappedComponent) => {
               </Text>
             </Box>
 
-            {/* Middle Section - Content with proper height constraints */}
             <Box
               pl={{ base: 8, md: 24 }}
               flex="1"
@@ -203,7 +196,6 @@ const HeroSection = (WrappedComponent) => {
               <WrappedComponent />
             </Box>
 
-            {/* Enhanced Bottom Section - Fixed at bottom */}
             <Box
               pl={{ base: 8, md: 24 }}
               flexShrink={0}
@@ -284,7 +276,6 @@ const HeroSection = (WrappedComponent) => {
                       {footerSub}
                     </Text>
                   </Flex>
-                  {/* Enhanced arrow with better styling */}
                   <Box
                     position="absolute"
                     right={{ base: "-40px", sm: "-60px", md: "-80px" }}
@@ -322,7 +313,6 @@ const HeroSection = (WrappedComponent) => {
                     }}
                   />
                 </Box>
-                {/* Social Links - Only visible on desktop */}
                 <SocialLinksLg />
               </HStack>
             </Box>
