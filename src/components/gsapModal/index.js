@@ -31,8 +31,8 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
   // Size variants
   const sizeMap = {
     sm: { w: "90vw", maxW: "400px", h: "auto", maxH: "80vh" },
-    md: { w: "90vw", maxW: "600px", h: "auto", maxH: "85vh" },
-    lg: { w: "90vw", maxW: "800px", h: "auto", maxH: "90vh" },
+    md: { w: "90vw", maxW: "700px", h: "auto", maxH: "85vh" },
+    lg: { w: "90vw", maxW: "900px", h: "auto", maxH: "90vh" },
     xl: { w: "95vw", maxW: "1200px", h: "auto", maxH: "95vh" },
   };
 
@@ -107,7 +107,8 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
         yoyo: true,
         ease: "sine.inOut",
       });
-    } else {
+    } else if (overlayRef.current && modalRef.current) {
+      // Only animate out if elements exist
       // Hide modal with GSAP animation
       const tl = gsap.timeline();
 
@@ -181,7 +182,7 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
       right={0}
       bottom={0}
       bg={overlayBg}
-      zIndex={9999}
+      zIndex={999999}
       display="flex"
       alignItems="center"
       justifyContent="center"
@@ -202,6 +203,9 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
         overflow="hidden"
         cursor="default"
         onClick={(e) => e.stopPropagation()}
+        maxH="90vh"
+        display="flex"
+        flexDirection="column"
         {...modalSize}
         _before={{
           content: '""',
@@ -230,13 +234,19 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
             transform: "scale(1.1)",
           }}
           onClick={onClose}
-          zIndex={1}
+          zIndex={2}
           transition="all 0.2s ease"
         />
 
         {/* Header */}
         {title && (
-          <Box p={6} pb={4} borderBottom="1px solid" borderColor={borderColor}>
+          <Box
+            p={6}
+            pb={4}
+            borderBottom="1px solid"
+            borderColor={borderColor}
+            flexShrink={0}
+          >
             <Text
               fontSize="2xl"
               fontWeight="bold"
@@ -253,18 +263,19 @@ const GSAPModal = ({ isOpen, onClose, children, title, size = "md" }) => {
           ref={contentRef}
           p={6}
           pt={title ? 4 : 6}
-          maxH="calc(100% - 80px)"
+          flex="1"
           overflow="auto"
+          minH="0"
           sx={{
             "&::-webkit-scrollbar": {
-              width: "4px",
+              width: "6px",
             },
             "&::-webkit-scrollbar-track": {
               background: "transparent",
             },
             "&::-webkit-scrollbar-thumb": {
               background: scrollThumbBg,
-              borderRadius: "2px",
+              borderRadius: "3px",
             },
             "&::-webkit-scrollbar-thumb:hover": {
               background: scrollThumbHoverBg,
