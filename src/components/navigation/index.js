@@ -28,7 +28,6 @@ const Nav = () => {
   const linksRef = useRef(null);
   const tl = useRef(null);
 
-  // Theme-aware colors
   const textColor = useColorModeValue("black", "white");
   const overlayBg = useColorModeValue(
     "rgba(6, 8, 9, 0.98)",
@@ -41,10 +40,8 @@ const Nav = () => {
   );
 
   useEffect(() => {
-    // Initialize timeline
     tl.current = gsap.timeline({ paused: true });
 
-    // Setup the animation
     tl.current
       .to(overlayRef.current, {
         clipPath: "circle(150% at 95% 5%)",
@@ -63,7 +60,6 @@ const Nav = () => {
         "-=0.4"
       );
 
-    // Initial state
     gsap.set(overlayRef.current, {
       clipPath: "circle(0% at 95% 5%)",
     });
@@ -73,7 +69,6 @@ const Nav = () => {
     });
   }, []);
 
-  // Update overlay when theme changes
   useEffect(() => {
     if (overlayRef.current) {
       gsap.to(overlayRef.current, {
@@ -96,7 +91,6 @@ const Nav = () => {
   return (
     <>
       <Flex>
-        {/* Hamburger Button */}
         <Box position="fixed" top={4} right={4} zIndex={1001}>
           <IconButton
             ref={menuRef}
@@ -113,7 +107,6 @@ const Nav = () => {
         <ThemeChanger />
       </Flex>
 
-      {/* Overlay Menu */}
       <Box
         ref={overlayRef}
         position="fixed"
