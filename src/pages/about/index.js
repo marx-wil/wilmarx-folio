@@ -29,14 +29,9 @@ const AboutContent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [activeModal, setActiveModal] = useState(null);
 
-  // Enhanced color tokens for better consistency
-  const accentColor = useColorModeValue("blue.500", "blue.400");
   const textColor = useColorModeValue("gray.600", "gray.400");
   const cardBg = useColorModeValue("white", "gray.800");
   const cardBorderColor = useColorModeValue("gray.200", "gray.700");
-  const skillBg = useColorModeValue("gray.100", "gray.700");
-  const skillColor = useColorModeValue("gray.700", "gray.300");
-  const purpleColor = useColorModeValue("purple.500", "purple.400");
   const skillTextColor = useColorModeValue("gray.800", "gray.200");
 
   const textContent = [
@@ -56,7 +51,6 @@ const AboutContent = () => {
     },
   ];
 
-  // Interactive widgets data
   const interactiveWidgets = [
     {
       id: "frontend",
@@ -254,8 +248,6 @@ const AboutContent = () => {
           />
         </GridItem>
       </Grid>
-
-      {/* Interactive Widgets Section */}
       <Box mt={{ base: 8, md: 12 }}>
         <Text
           fontSize={{ base: "lg", md: "xl" }}
@@ -372,7 +364,6 @@ const AboutContent = () => {
         </Grid>
       </Box>
 
-      {/* GSAP Modal */}
       <GSAPModal
         isOpen={isOpen}
         onClose={onClose}
@@ -389,7 +380,6 @@ const AboutContent = () => {
   );
 };
 
-// Create a new component with the HeroSection HOC
 const HeroWithContent = HeroSection(AboutContent);
 
 const About = () => {
