@@ -177,7 +177,7 @@ const HeroSection = (WrappedComponent) => {
                 color={textColor}
                 opacity={0.8}
               >
-                &copy; {new Date().getFullYear()}
+                &copy; THE MARX STACK {new Date().getFullYear()}
               </Text>
             </Box>
 
@@ -267,11 +267,7 @@ const HeroSection = (WrappedComponent) => {
                     color={headingColor}
                     mb={2}
                     style={{ transform: "translateX(0)" }}
-                    bgGradient={useColorModeValue(
-                      "linear(to-r, gray.800, blue.600)",
-                      "linear(to-r, gray.200, blue.400)"
-                    )}
-                    bgClip="text"
+                    bgGradient={headingColor}
                   >
                     {footerBody}
                   </Text>
@@ -280,7 +276,7 @@ const HeroSection = (WrappedComponent) => {
                       fontSize="xs"
                       letterSpacing="0.2em"
                       textTransform="uppercase"
-                      color={accentColor}
+                      color={textColor}
                       className="poppins-light"
                       style={{ transform: "translateX(0)" }}
                       fontWeight="medium"
@@ -296,7 +292,7 @@ const HeroSection = (WrappedComponent) => {
                     transform="translateY(-50%)"
                     w={{ base: "30px", sm: "45px", md: "60px" }}
                     h={{ base: "1.5px", md: "2px" }}
-                    bg={accentColor}
+                    bg={textColor}
                     ref={arrowRef}
                     style={{ transform: "translate(0, -50%)" }}
                     borderRadius="full"
@@ -307,7 +303,7 @@ const HeroSection = (WrappedComponent) => {
                       top: "50%",
                       w: { base: "8px", sm: "10px", md: "12px" },
                       h: { base: "1.5px", md: "2px" },
-                      bg: accentColor,
+                      bg: textColor,
                       transform: "rotate(45deg)",
                       transformOrigin: "right center",
                       borderRadius: "full",
@@ -319,7 +315,7 @@ const HeroSection = (WrappedComponent) => {
                       top: "50%",
                       w: { base: "8px", sm: "10px", md: "12px" },
                       h: { base: "1.5px", md: "2px" },
-                      bg: accentColor,
+                      bg: textColor,
                       transform: "rotate(-45deg)",
                       transformOrigin: "right center",
                       borderRadius: "full",
