@@ -1,7 +1,6 @@
 import { Text, VStack, useColorModeValue } from "@chakra-ui/react";
 
 const HeroHeader = ({ title, subtitle, highlightText }) => {
-  // Enhanced color tokens for better consistency
   const titleColor = useColorModeValue("gray.500", "gray.400");
   const subtitleColor = useColorModeValue("gray.800", "gray.200");
   const highlightColor = useColorModeValue("blue.600", "blue.400");
